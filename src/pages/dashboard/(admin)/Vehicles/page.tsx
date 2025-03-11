@@ -23,17 +23,15 @@ import { FaPlus } from "react-icons/fa";
 import { FiTrash } from "react-icons/fi";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin7Line } from "react-icons/ri";
-import { AddFaqModal, DeleteFaqModal, EditVehicleModal } from "./modals";
+import {
+  AddVehiclesModal,
+  DeleteVehiclesModal,
+  EditVehicleModal,
+} from "./modals";
 
 // import FaqModal from "./modal";
 
 export interface DataType {
-  question_en: string;
-  question_ar: string;
-  answer_en: string;
-  answer_ar: string;
-  // id: number;
-
   name: string;
   id: number;
   nameAr: string;
@@ -54,14 +52,10 @@ const Vehicles = () => {
     currentPage: 0,
   });
 
-  const [questionArabic, setQuestionArabic] = useState("");
-  const [questionEnglish, setQuestionEnglish] = useState("");
-  const [answerArabic, setAnswerArabic] = useState("");
-  const [answerEnglish, setAnswerEnglish] = useState("");
-  const [addFaqOpen, setAddFaqOpen] = useState(false);
-  const [editFaqOpen, setEditFaqOpen] = useState(false);
-  const [deleteFaqOpen, setDeleteFaqOpen] = useState(false);
-  const [faqId, setFaqId] = useState(undefined);
+  const [addVehiclesOpen, setAddVehiclesOpen] = useState(false);
+  const [editVehiclesOpen, setEditVehiclesOpen] = useState(false);
+  const [deleteVehiclesOpen, setDeleteVehiclesOpen] = useState(false);
+  const [VehiclesId, setVehiclesId] = useState(undefined);
 
   const [name, setName] = useState("");
   const [nameAr, setNameAr] = useState("");
@@ -111,29 +105,29 @@ const Vehicles = () => {
       title: <FormattedMessage id="name" />,
       dataIndex: "name",
       key: "name",
-      width: "20%",
-      filterDropdown: columnSearch("name", name, setName, "name"),
-      filterIcon: (
-        <SearchOutlined style={{ color: name ? "#03b89e" : undefined }} />
-      ),
+      width: "25%",
+      // filterDropdown: columnSearch("name", name, setName, "name"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: name ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="nameAr" />,
       dataIndex: "nameAr",
       key: "nameAr",
-      width: "20%",
-      filterDropdown: columnSearch("nameAr", nameAr, setNameAr, "nameAr"),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: questionEnglish ? "#03b89e" : undefined }}
-        />
-      ),
+      width: "25%",
+      // filterDropdown: columnSearch("nameAr", nameAr, setNameAr, "nameAr"),
+      // filterIcon: (
+      //   <SearchOutlined
+      //     style={{ color: nameAr ? "#03b89e" : undefined }}
+      //   />
+      // ),
     },
     {
       title: <FormattedMessage id="imageUrl" />,
       dataIndex: "imageUrl",
       key: "imageUrl",
-      width: "20%",
+      width: "25%",
       render: (_, record) =>
         record.imageUrl ? (
           <Image
@@ -151,47 +145,49 @@ const Vehicles = () => {
     {
       title: <FormattedMessage id="actions" />,
       key: "actions",
-      width: "20%",
+      width: "25%",
       render: (_, record: DataType) => (
         <div className="flex">
           <Tooltip title={<FormattedMessage id="edit" />} color="#209163">
-            <FiEdit
-              className="text-primary cursor-pointer mx-3 text-xl"
-              onClick={() => {
-                setFaqId({
-                  id: record.id,
-                  name: record.name, // تأكد من استخدام المفتاح الصحيح
-                  nameAr: record.nameAr,
-                  imageUrl: record.imageUrl, // تأكد من وجود الصورة
-                });
-                form.setFieldsValue({
-                  // Id: record.id,
-                  Name: record.name,
-                  NameAr: record.nameAr,
-                  // Image: record.imageUrl ? [{ url: record.imageUrl }] : [], // تحميل الصورة
-                });
-                setEditFaqOpen(true);
-              }}
-            />
+            <span>
+              <FiEdit
+                className="text-primary cursor-pointer mx-3 text-xl text-[#209163]"
+                onClick={() => {
+                  setVehiclesId({
+                    id: record.id,
+                    name: record.name,
+                    nameAr: record.nameAr,
+                    imageUrl: record.imageUrl,
+                  });
+                  form.setFieldsValue({
+                    Name: record.name,
+                    NameAr: record.nameAr,
+                  });
+                  setEditVehiclesOpen(true);
+                }}
+              />
+            </span>
           </Tooltip>
           <Tooltip
             title={<FormattedMessage id="delete" />}
             color="rgb(185 28 28)"
           >
-            <FiTrash
-              className="text-red-700  cursor-pointer mx-3 text-xl"
-              onClick={() => {
-                setFaqId(record.id);
-                setDeleteFaqOpen(true);
-              }}
-            />
+            <span>
+              <FiTrash
+                className="text-red-700  cursor-pointer mx-3 text-xl"
+                onClick={() => {
+                  setVehiclesId(record.id);
+                  setDeleteVehiclesOpen(true);
+                }}
+              />
+            </span>
           </Tooltip>
         </div>
       ),
     },
   ];
 
-  //// get all faqs
+  // get all Vehicles
   const fetchData = async () => {
     const params: { [key: string]: string | number } = {};
     if (typeof pagination.currentPage === "number") {
@@ -220,7 +216,7 @@ const Vehicles = () => {
     queryFn: fetchData,
     // refetchInterval: 5000,
   });
-  //// add Faq logic
+  // add Vehicles logic
   // const addFaqMutation = useMutation({
   //   mutationFn: async ({
   //     url,
@@ -236,7 +232,7 @@ const Vehicles = () => {
   //     } else {
   //       return axios.post(
   //         url,
-  //         { Name: name, NameAr: nameAr }, // ✅ إرسال البيانات كـ JSON
+  //         { Name: name, NameAr: nameAr },
   //         { headers: { "Content-Type": "application/json" } }
   //       );
   //     }
@@ -261,16 +257,14 @@ const Vehicles = () => {
   //   const { name, nameAr, image } = values;
 
   //   if (!image) {
-  //     // ✅ عند عدم وجود صورة، نرسل البيانات كـ JSON وليس داخل formData
   //     addFaqMutation.mutate({
   //       url: `Vehicletype`,
-  //       formData: undefined, // ✅ لا نمرر FormData
+  //       formData: undefined,
   //     });
 
   //     return;
   //   }
 
-  //   // ✅ عند وجود صورة، نستخدم FormData
   //   const formData = new FormData();
   //   formData.append("Name", name);
   //   formData.append("NameAr", nameAr);
@@ -282,37 +276,33 @@ const Vehicles = () => {
   //   });
   // };
 
-  const yourAuthToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInN1YiI6ImZmYjhmMGQ5LTU2ODgtNGI4OC0yYTIwLTA4ZGQ1MDJmMWQwOSIsImp0aSI6ImU2M2Q2ZDA0LWM1ZGMtNDhmNS1iYmZjLThlOTVkYTJhOWM3OCIsImV4cCI6MTc0MTY3OTE5MywiaXNzIjoiV29sZlNoYWRvd0lzc3VlciIsImF1ZCI6IldvbGZTaGFkb3dVc2VyIn0.o6xDmFdwSKylpPoAc0y5mFRl8lULKDA_C8cUOvZOL50";
+  // const yourAuthToken =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInN1YiI6ImZmYjhmMGQ5LTU2ODgtNGI4OC0yYTIwLTA4ZGQ1MDJmMWQwOSIsImp0aSI6ImU2M2Q2ZDA0LWM1ZGMtNDhmNS1iYmZjLThlOTVkYTJhOWM3OCIsImV4cCI6MTc0MTY3OTE5MywiaXNzIjoiV29sZlNoYWRvd0lzc3VlciIsImF1ZCI6IldvbGZTaGFkb3dVc2VyIn0.o6xDmFdwSKylpPoAc0y5mFRl8lULKDA_C8cUOvZOL50";
 
   // const handleAddVehicle = async (values: any) => {
   //   try {
   //     const formData = new FormData();
 
-  //     // ✅ تأكيد إضافة الاسم والاسم العربي
   //     formData.append("name", values.Name);
   //     formData.append("nameAr", values.NameAr);
 
-  //     // ✅ التأكد من أن الصورة موجودة قبل الإرسال
   //     if (
   //       values.Image &&
   //       values.Image.length > 0 &&
   //       values.Image[0].originFileObj
   //     ) {
   //       const imageFile = values.Image[0].originFileObj;
-  //       console.log("📷 تفاصيل الصورة:", imageFile);
+  //       console.log(, imageFile);
   //       formData.append("image", imageFile);
   //     } else {
-  //       console.error("🚨 لم يتم تحديد صورة بشكل صحيح!");
+  //       console.error("Error");
   //       return;
   //     }
 
-  //     // ✅ طباعة جميع البيانات داخل FormData قبل الإرسال
   //     for (let pair of formData.entries()) {
   //       console.log(`📂 ${pair[0]}:`, pair[1]);
   //     }
 
-  //     // ✅ إرسال البيانات إلى السيرفر
   //     const response = await axios.post("/Vehicletype", formData, {
   //       baseURL: "https://backend.wolf-shadow.com/api",
   //       headers: {
@@ -321,16 +311,14 @@ const Vehicles = () => {
   //       },
   //     });
 
-  //     console.log("🚀 تمت الإضافة بنجاح:", response.data);
+  //     console.log(, response.data);
 
   //     setAddFaqOpen(false);
   //     form.resetFields();
   //   } catch (error) {
-  //     console.error("❌ خطأ أثناء الإضافة:", error.response?.data || error);
+  //     console.error( error.response?.data || error);
   //   }
   // };
-
-  //// edit Faq logic
 
   const addVehicleMutation = useMutation({
     mutationFn: (values: any) => {
@@ -351,12 +339,12 @@ const Vehicles = () => {
         baseURL: "https://backend.wolf-shadow.com/api",
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${yourAuthToken || ""}`,
+          // Authorization: `Bearer ${yourAuthToken || ""}`,
         },
       });
     },
     onSuccess: (res) => {
-      setAddFaqOpen(false);
+      setAddVehiclesOpen(false);
       refetch();
       message.success(res?.data?.message, 3);
       form.resetFields();
@@ -389,12 +377,12 @@ const Vehicles = () => {
         baseURL: "https://backend.wolf-shadow.com/api",
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${yourAuthToken || ""}`,
+          // Authorization: `Bearer ${yourAuthToken || ""}`,
         },
       });
     },
     onSuccess: (res) => {
-      setEditFaqOpen(false);
+      setEditVehiclesOpen(false);
       refetch();
       message.success(res?.data?.message, 3);
       form.resetFields();
@@ -404,20 +392,20 @@ const Vehicles = () => {
     },
   });
 
-  // ✅ استدعاء التعديل عند الضغط على حفظ
   const editVehicleFunc = (values: any) => {
-    const updatedValues = { ...values, Id: faqId.id }; // إضافة `faqId` إلى البيانات
+    const updatedValues = { ...values, Id: VehiclesId.id };
     editVehicleMutation.mutate(updatedValues);
   };
 
   /// delete faq logic
 
   const deleteFaqMutation = useMutation({
-    mutationFn: () => axios["delete"](`Vehicletype?id=${faqId}`),
+    mutationFn: () => axios["delete"](`Vehicletype?id=${VehiclesId}`),
     onSuccess: (res) => {
       // const { data } = res?.data?.data;
 
-      setDeleteFaqOpen(false);
+      setDeleteVehiclesOpen(false);
+      refetch();
       message.success(res?.data?.message);
     },
     onError: (err) => {
@@ -437,21 +425,24 @@ const Vehicles = () => {
         ) : (
           <Table<DataType>
             title={() => (
-              <Button
-                type="primary"
-                className="shadow-none"
-                icon={<FaPlus />}
-                shape="circle"
-                // loading={loading}
-                onClick={() => {
-                  form.resetFields();
-                  setAddFaqOpen(true);
-                }}
-              />
+              <Tooltip title={<FormattedMessage id="add" />} color="#ed1c24">
+                <Button
+                  type="primary"
+                  className="shadow-none"
+                  icon={<FaPlus />}
+                  shape="circle"
+                  // loading={loading}
+                  onClick={() => {
+                    form.resetFields();
+                    setAddVehiclesOpen(true);
+                  }}
+                />
+              </Tooltip>
             )}
             columns={columns}
-            dataSource={data}
-            scroll={{ x: 1500, y: 350 }}
+            // dataSource={data}
+            dataSource={data?.map((item) => ({ ...item, key: item.id }))}
+            scroll={{ x: 1200, y: 350 }}
             pagination={{
               total: pagination.totalCount,
               current: pagination.currentPage + 1,
@@ -467,10 +458,10 @@ const Vehicles = () => {
           />
         )}
       </div>
-      <AddFaqModal
-        open={addFaqOpen}
+      <AddVehiclesModal
+        open={addVehiclesOpen}
         cancel={() => {
-          setAddFaqOpen(false);
+          setAddVehiclesOpen(false);
           form.resetFields();
         }}
         ok={addVehicleFunc}
@@ -478,16 +469,16 @@ const Vehicles = () => {
         loading={addVehicleMutation.isPending}
       />
       <EditVehicleModal
-        open={editFaqOpen}
-        cancel={() => setEditFaqOpen(false)}
+        open={editVehiclesOpen}
+        cancel={() => setEditVehiclesOpen(false)}
         form={form}
         ok={editVehicleFunc}
         loading={editVehicleMutation.isPending}
-        data={faqId}
+        data={VehiclesId}
       />
-      <DeleteFaqModal
-        open={deleteFaqOpen}
-        cancel={() => setDeleteFaqOpen(false)}
+      <DeleteVehiclesModal
+        open={deleteVehiclesOpen}
+        cancel={() => setDeleteVehiclesOpen(false)}
         ok={deleteFaqFunc}
         loading={deleteFaqMutation.isPending}
       />

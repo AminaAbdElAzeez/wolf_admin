@@ -227,6 +227,7 @@ const Branches = () => {
       // const { data } = res?.data?.data;
 
       setDeleteBranchOpen(false);
+      refetch();
       message.success(res?.data?.message);
     },
     onError: (err) => {

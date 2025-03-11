@@ -4,14 +4,8 @@ import { Input, Form, Modal, Button, Dropdown, Select, Upload } from "antd";
 import type { FormInstance } from "antd/es/form";
 import { UploadOutlined } from "@ant-design/icons";
 
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 export interface DataType {
-  question_en: string;
-  question_ar: string;
-  answer_en: string;
-  answer_ar: string;
-  // id: number;
-
   name: string;
   id: number;
   nameAr: string;
@@ -43,9 +37,9 @@ type Props = {
   loading: boolean;
 };
 {
-  /***********edit Faq modal********* */
+  /***********edit Slider modal********* */
 }
-export const EditVehicleModal: React.FC<Props> = ({
+export const EditSliderModal: React.FC<Props> = ({
   open,
   cancel,
   ok,
@@ -56,6 +50,7 @@ export const EditVehicleModal: React.FC<Props> = ({
   const [fileList, setFileList] = useState<any[]>([]);
 
   useEffect(() => {
+    console.log(data);
     if (data && open) {
       form.setFieldsValue({
         Id: data?.id,
@@ -63,9 +58,8 @@ export const EditVehicleModal: React.FC<Props> = ({
         titleAr: data?.titleAr,
         descriptionEn: data?.descriptionEn,
         descriptionAr: data?.descriptionAr,
+        Image: data?.imageUrl ? [{ url: data.imageUrl }] : [],
       });
-
-      // إذا كانت هناك صورة، اجعلها تظهر داخل الـ Upload
       setFileList(
         data?.imageUrl
           ? [
@@ -82,55 +76,135 @@ export const EditVehicleModal: React.FC<Props> = ({
   }, [open, data, form]);
 
   const handleChange = ({ fileList }: any) => {
-    setFileList(fileList);
+    setFileList(Array.isArray(fileList) ? fileList : []);
   };
+  const intl = useIntl();
 
   return (
-    <Modal title="تعديل السلايدر" open={open} onCancel={cancel} footer={null}>
+    <Modal
+      title={
+        <p className="text-[18px]">
+          <FormattedMessage id="edit-slider" />
+        </p>
+      }
+      open={open}
+      onCancel={cancel}
+      footer={null}
+    >
       <Form layout="vertical" form={form} initialValues={data} onFinish={ok}>
         <Form.Item
-          label="العنوان (إنجليزي)"
+          label={<FormattedMessage id="titleEn" />}
           name="titleEn"
-          rules={[{ required: true, message: "العنوان مطلوب" }]}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="title-english-required" />,
+            },
+            {
+              min: 2,
+              message: <FormattedMessage id="title-min-2-char" />,
+            },
+            {
+              max: 100,
+              message: <FormattedMessage id="title-max-100-char" />,
+            },
+          ]}
         >
-          <Input />
+          <Input
+            size="large"
+            placeholder={intl.formatMessage({ id: "titleMsgEn" })}
+          />
         </Form.Item>
         <Form.Item
-          label="العنوان (عربي)"
+          label={<FormattedMessage id="titleAr" />}
           name="titleAr"
-          rules={[{ required: true, message: "العنوان مطلوب" }]}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="titleAr-arabic-required" />,
+            },
+            {
+              min: 2,
+              message: <FormattedMessage id="title-min-2-char" />,
+            },
+            {
+              max: 100,
+              message: <FormattedMessage id="title-max-100-char" />,
+            },
+          ]}
         >
-          <Input />
+          <Input
+            size="large"
+            placeholder={intl.formatMessage({ id: "titleMsgAr" })}
+          />
         </Form.Item>
         <Form.Item
-          label="الوصف (إنجليزي)"
+          label={<FormattedMessage id="descriptionEn2" />}
           name="descriptionEn"
-          rules={[{ required: true, message: "الوصف مطلوب" }]}
+          rules={[
+            {
+              required: true,
+              message: (
+                <FormattedMessage id="descriptionEn2-english-required" />
+              ),
+            },
+          ]}
         >
-          <Input />
+          <Input
+            size="large"
+            placeholder={intl.formatMessage({ id: "descMsgEn" })}
+          />
         </Form.Item>
         <Form.Item
-          label="الوصف (عربي)"
+          label={<FormattedMessage id="descriptionAr2" />}
           name="descriptionAr"
-          rules={[{ required: true, message: "الوصف مطلوب" }]}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="descriptionAr2-arabic-required" />,
+            },
+          ]}
         >
-          <Input />
+          <Input
+            size="large"
+            placeholder={intl.formatMessage({ id: "descMsgAr" })}
+          />
         </Form.Item>
-        <Form.Item label="الصورة" name="Image">
+        <Form.Item
+          // label={<FormattedMessage id="image" />}
+          name="Image"
+          valuePropName="fileList"
+          getValueFromEvent={(e) => e.fileList}
+          className="pt-3"
+        >
           <Upload
             fileList={fileList}
-            beforeUpload={() => false}
             onChange={handleChange}
             listType="picture"
             maxCount={1}
           >
-            <Button icon={<UploadOutlined />}>اختر صورة</Button>
+            <Button icon={<UploadOutlined />} className="mb-2">
+              <FormattedMessage id="select-img" />
+            </Button>
           </Upload>
         </Form.Item>
-        <Form.Item className="flex justify-end">
-          <Button onClick={cancel}>إلغاء</Button>
-          <Button type="primary" htmlType="submit" loading={loading}>
-            تعديل
+        <Form.Item className="modals-btns update-user-modal-btns flex justify-end items-center sticky bottom-0 bg-white z-[1000] pt-0">
+          <Button
+            type="primary"
+            size="large"
+            className="modals-cancel-btn min-w-[65px] me-1 text-black inline-block hover:text-black hover:border-black"
+            onClick={cancel}
+          >
+            <FormattedMessage id="cancel" />
+          </Button>
+          <Button
+            type="primary"
+            size="large"
+            className="modals-confirm-btn text-white min-w-[65px] ms-1 bg-primary hover:bg-primary inline-block"
+            htmlType="submit"
+            loading={loading}
+          >
+            <FormattedMessage id="edit" />
           </Button>
         </Form.Item>
       </Form>
@@ -139,11 +213,10 @@ export const EditVehicleModal: React.FC<Props> = ({
 };
 
 {
-  /*******add faq modal******** */
+  /*******add Slider modal******** */
 }
-// mitsubshi;
-// متسوبيشي
-export const AddFaqModal: React.FC<Props> = ({
+
+export const AddSliderModal: React.FC<Props> = ({
   open,
   cancel,
   ok,
@@ -152,10 +225,10 @@ export const AddFaqModal: React.FC<Props> = ({
 }) => {
   const [fileList, setFileList] = useState<any[]>([]);
   const handleChange = ({ fileList }: any) => {
-    console.log("📂 قائمة الملفات المرفوعة:", fileList);
-
+    // console.log(fileList);
     setFileList(fileList);
   };
+  const intl = useIntl();
 
   return (
     <>
@@ -163,7 +236,7 @@ export const AddFaqModal: React.FC<Props> = ({
       <Modal
         title={
           <p className="text-[18px]">
-            <FormattedMessage id="add-faq" />
+            <FormattedMessage id="add-slider" />
           </p>
         }
         open={open}
@@ -188,123 +261,123 @@ export const AddFaqModal: React.FC<Props> = ({
             "
           >
             <Form.Item
-              label={<FormattedMessage id="title" />}
+              label={<FormattedMessage id="titleEn" />}
               name="titleEn"
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="question-arabic-required" />,
+                  message: <FormattedMessage id="title-english-required" />,
                 },
                 {
                   min: 2,
-                  message: <FormattedMessage id="question-min-2-char" />,
+                  message: <FormattedMessage id="title-min-2-char" />,
                 },
                 {
                   max: 100,
-                  message: <FormattedMessage id="question-max-100-char" />,
+                  message: <FormattedMessage id="title-max-100-char" />,
                 },
               ]}
             >
-              <Input size="large" />
+              <Input
+                size="large"
+                placeholder={intl.formatMessage({ id: "titleMsgEn" })}
+              />
             </Form.Item>
             <Form.Item
-              label={<FormattedMessage id="title" />}
+              label={<FormattedMessage id="titleAr" />}
               name="titleAr"
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="question-arabic-required" />,
+                  message: <FormattedMessage id="titleAr-arabic-required" />,
                 },
                 {
                   min: 2,
-                  message: <FormattedMessage id="question-min-2-char" />,
+                  message: <FormattedMessage id="title-min-2-char" />,
                 },
                 {
                   max: 100,
-                  message: <FormattedMessage id="question-max-100-char" />,
+                  message: <FormattedMessage id="title-max-100-char" />,
                 },
               ]}
             >
-              <Input size="large" />
+              <Input
+                size="large"
+                placeholder={intl.formatMessage({ id: "titleMsgAr" })}
+              />
             </Form.Item>
             <Form.Item
-              label={<FormattedMessage id="description" />}
-              name="descriptionAr"
-              rules={[
-                {
-                  required: true,
-                  message: <FormattedMessage id="question-english-required" />,
-                },
-                {
-                  min: 2,
-                  message: <FormattedMessage id="question-min-2-char" />,
-                },
-                {
-                  max: 100,
-                  message: <FormattedMessage id="question-max-100-char" />,
-                },
-              ]}
-            >
-              <Input size="large" />
-            </Form.Item>
-            <Form.Item
-              label={<FormattedMessage id="description" />}
+              label={<FormattedMessage id="descriptionEn2" />}
               name="descriptionEn"
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="question-english-required" />,
-                },
-                {
-                  min: 2,
-                  message: <FormattedMessage id="question-min-2-char" />,
-                },
-                {
-                  max: 100,
-                  message: <FormattedMessage id="question-max-100-char" />,
+                  message: (
+                    <FormattedMessage id="descriptionEn2-english-required" />
+                  ),
                 },
               ]}
             >
-              <Input size="large" />
+              <Input
+                size="large"
+                placeholder={intl.formatMessage({ id: "descMsgEn" })}
+              />
             </Form.Item>
             <Form.Item
-              label={<FormattedMessage id="image" />}
+              label={<FormattedMessage id="descriptionAr2" />}
+              name="descriptionAr"
+              rules={[
+                {
+                  required: true,
+                  message: (
+                    <FormattedMessage id="descriptionAr2-arabic-required" />
+                  ),
+                },
+              ]}
+            >
+              <Input
+                size="large"
+                placeholder={intl.formatMessage({ id: "descMsgAr" })}
+              />
+            </Form.Item>
+            <Form.Item
+              // label={<FormattedMessage id="image" />}
               name="Image"
               valuePropName="fileList"
               getValueFromEvent={(e) => e.fileList}
+              className="pt-3"
             >
               <Upload
-                // fileList={fileList}
-                beforeUpload={() => false} // منع الرفع التلقائي
+                fileList={fileList}
                 onChange={handleChange}
                 listType="picture"
                 maxCount={1}
               >
-                <Button icon={<UploadOutlined />}>اختر صورة</Button>
+                <Button icon={<UploadOutlined />} className="mb-2">
+                  <FormattedMessage id="select-img" />
+                </Button>
               </Upload>
             </Form.Item>
+            <Form.Item className="modals-btns update-user-modal-btns flex justify-end items-center sticky bottom-0 bg-white z-[1000] pt-0">
+              <Button
+                type="primary"
+                size="large"
+                className="modals-cancel-btn min-w-[65px] me-1 text-black inline-block hover:text-black hover:border-black"
+                onClick={cancel}
+              >
+                <FormattedMessage id="cancel" />
+              </Button>
+              <Button
+                type="primary"
+                size="large"
+                className="modals-confirm-btn text-white min-w-[65px] ms-1 bg-primary hover:bg-primary inline-block"
+                htmlType="submit"
+                loading={loading}
+              >
+                <FormattedMessage id="add" />
+              </Button>
+            </Form.Item>
           </div>
-          <Form.Item className="modals-btns update-user-modal-btns flex justify-end items-center sticky bottom-0 bg-white z-[1000] pt-4">
-            <Button
-              // type="primary"
-
-              size="large"
-              className="modals-cancel-btn min-w-[65px] me-1 text-black inline-block hover:text-black hover:border-black"
-              onClick={cancel}
-            >
-              <FormattedMessage id="cancel" />
-            </Button>
-            <Button
-              // type="primary"
-
-              size="large"
-              className="modals-confirm-btn text-white min-w-[65px] ms-1 bg-primary hover:bg-primary inline-block"
-              htmlType="submit"
-              loading={loading}
-            >
-              <FormattedMessage id="add" />
-            </Button>
-          </Form.Item>
         </Form>
       </Modal>
     </>
@@ -314,7 +387,7 @@ export const AddFaqModal: React.FC<Props> = ({
 {
   /******delete modal****** */
 }
-export const DeleteFaqModal: React.FC<Props> = ({
+export const DeleteSliderModal: React.FC<Props> = ({
   open,
   cancel,
   ok,
@@ -326,7 +399,7 @@ export const DeleteFaqModal: React.FC<Props> = ({
       <Modal
         title={
           <p className="text-[18px]">
-            <FormattedMessage id="delete-faq" />
+            <FormattedMessage id="delete-Slider" />
           </p>
         }
         open={open}
@@ -352,7 +425,7 @@ export const DeleteFaqModal: React.FC<Props> = ({
         }
       >
         <p className="text-[16px] py-8">
-          {<FormattedMessage id="sure-delete-faq" />}
+          {<FormattedMessage id="sure-delete-slider" />}
         </p>
       </Modal>
     </>

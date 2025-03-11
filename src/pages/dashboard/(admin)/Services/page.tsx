@@ -22,17 +22,11 @@ import { FaPlus } from "react-icons/fa";
 import { FiTrash } from "react-icons/fi";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin7Line } from "react-icons/ri";
-import { AddFaqModal, EditFaqModal, DeleteFaqModal } from "./modal";
+import { AddServiceModal, DeleteServiceModal, EditServiceModal } from "./modal";
 
 // import FaqModal from "./modal";
 
 export interface DataType {
-  question_en: string;
-  question_ar: string;
-  answer_en: string;
-  answer_ar: string;
-  // id: number;
-
   name: string;
   id: number;
   nameAr: string;
@@ -49,16 +43,10 @@ const Services = () => {
     totalCount: 0,
     currentPage: 0,
   });
-
-  const [questionArabic, setQuestionArabic] = useState("");
-  const [questionEnglish, setQuestionEnglish] = useState("");
-  const [answerArabic, setAnswerArabic] = useState("");
-  const [answerEnglish, setAnswerEnglish] = useState("");
-  const [addFaqOpen, setAddFaqOpen] = useState(false);
-  const [editFaqOpen, setEditFaqOpen] = useState(false);
-  const [deleteFaqOpen, setDeleteFaqOpen] = useState(false);
-  const [faqId, setFaqId] = useState(undefined);
-
+  const [addServiceOpen, setAddServiceOpen] = useState(false);
+  const [editServiceOpen, setEditServiceOpen] = useState(false);
+  const [deleteServiceOpen, setDeleteServiceOpen] = useState(false);
+  const [ServiceId, setServiceId] = useState(undefined);
   const [name, setName] = useState("");
   const [nameAr, setNameAr] = useState("");
 
@@ -106,61 +94,63 @@ const Services = () => {
       title: <FormattedMessage id="name" />,
       dataIndex: "name",
       key: "name",
-      width: "20%",
-      filterDropdown: columnSearch("name", name, setName, "name"),
-      filterIcon: (
-        <SearchOutlined style={{ color: name ? "#03b89e" : undefined }} />
-      ),
+      width: "33%",
+      // filterDropdown: columnSearch("name", name, setName, "name"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: name ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="nameAr" />,
       dataIndex: "nameAr",
       key: "nameAr",
-      width: "20%",
-      filterDropdown: columnSearch("nameAr", nameAr, setNameAr, "nameAr"),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: questionEnglish ? "#03b89e" : undefined }}
-        />
-      ),
+      width: "33%",
+      // filterDropdown: columnSearch("nameAr", nameAr, setNameAr, "nameAr"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: nameAr ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="actions" />,
       key: "actions",
-      width: "20%",
+      width: "33%",
       render: (_, record: DataType) => (
         <div className="flex">
           <Tooltip title={<FormattedMessage id="edit" />} color="#209163">
-            <FiEdit
-              className="text-primary cursor-pointer mx-3 text-xl"
-              onClick={() => {
-                setFaqId(record.id);
-                form.setFieldsValue({
-                  name: record?.name,
-                  nameAr: record?.nameAr,
-                });
-                setEditFaqOpen(true);
-              }}
-            />
+            <span>
+              <FiEdit
+                className="text-primary cursor-pointer mx-3 text-xl text-[#209163]"
+                onClick={() => {
+                  setServiceId(record.id);
+                  form.setFieldsValue({
+                    name: record?.name,
+                    nameAr: record?.nameAr,
+                  });
+                  setEditServiceOpen(true);
+                }}
+              />
+            </span>
           </Tooltip>
           <Tooltip
             title={<FormattedMessage id="delete" />}
             color="rgb(185 28 28)"
           >
-            <FiTrash
-              className="text-red-700  cursor-pointer mx-3 text-xl"
-              onClick={() => {
-                setFaqId(record.id);
-                setDeleteFaqOpen(true);
-              }}
-            />
+            <span>
+              <FiTrash
+                className="text-red-700  cursor-pointer mx-3 text-xl"
+                onClick={() => {
+                  setServiceId(record.id);
+                  setDeleteServiceOpen(true);
+                }}
+              />
+            </span>
           </Tooltip>
         </div>
       ),
     },
   ];
 
-  //// get all faqs
+  // get all Services
   const fetchData = async () => {
     const params: { [key: string]: string | number } = {};
     if (typeof pagination.currentPage === "number") {
@@ -189,11 +179,12 @@ const Services = () => {
     queryFn: fetchData,
     // refetchInterval: 5000,
   });
-  //// add Faq logic
-  const addFaqMutation = useMutation({
+
+  // add Service logic
+  const addServiceMutation = useMutation({
     mutationFn: (values: any) => axios["post"](`Servicetype`, values),
     onSuccess: (res) => {
-      setAddFaqOpen(false);
+      setAddServiceOpen(false);
       refetch();
       message.success(res?.data?.message, 3);
       form.resetFields();
@@ -203,16 +194,16 @@ const Services = () => {
     },
   });
 
-  const addFaqFunc = (values: any) => {
-    addFaqMutation.mutate(values);
+  const addServiceFunc = (values: any) => {
+    addServiceMutation.mutate(values);
   };
 
-  //// edit Faq logic
+  // edit Service logic
   const editFaqMutation = useMutation({
     mutationFn: (values: { id: number; name: string; nameAr: string }) =>
-      axios["put"](`Servicetype`, { ...values, id: faqId }),
+      axios["put"](`Servicetype`, { ...values, id: ServiceId }),
     onSuccess: (res) => {
-      setEditFaqOpen(false);
+      setEditServiceOpen(false);
       refetch();
       message.success(res?.data?.message, 3);
     },
@@ -221,7 +212,7 @@ const Services = () => {
     },
   });
 
-  const editFaqFunc = (values: {
+  const editServiceFunc = (values: {
     id: number;
     name: string;
     nameAr: string;
@@ -230,14 +221,13 @@ const Services = () => {
     editFaqMutation.mutate(values);
   };
 
-  /// delete faq logic
-
-  const deleteFaqMutation = useMutation({
-    mutationFn: () => axios["delete"](`Servicetype?id=${faqId}`),
+  /// delete Service logic
+  const deleteServiceMutation = useMutation({
+    mutationFn: () => axios["delete"](`Servicetype?id=${ServiceId}`),
     onSuccess: (res) => {
       // const { data } = res?.data?.data;
-
-      setDeleteFaqOpen(false);
+      setDeleteServiceOpen(false);
+      refetch();
       message.success(res?.data?.message);
     },
     onError: (err) => {
@@ -245,8 +235,8 @@ const Services = () => {
     },
   });
 
-  const deleteFaqFunc = () => {
-    deleteFaqMutation.mutate();
+  const deleteServiceFunc = () => {
+    deleteServiceMutation.mutate();
   };
 
   return (
@@ -257,21 +247,24 @@ const Services = () => {
         ) : (
           <Table<DataType>
             title={() => (
-              <Button
-                type="primary"
-                className="shadow-none"
-                icon={<FaPlus />}
-                shape="circle"
-                // loading={loading}
-                onClick={() => {
-                  form.resetFields();
-                  setAddFaqOpen(true);
-                }}
-              />
+              <Tooltip title={<FormattedMessage id="add" />} color="#ed1c24">
+                <Button
+                  type="primary"
+                  className="shadow-none"
+                  icon={<FaPlus />}
+                  shape="circle"
+                  // loading={loading}
+                  onClick={() => {
+                    form.resetFields();
+                    setAddServiceOpen(true);
+                  }}
+                />
+              </Tooltip>
             )}
             columns={columns}
-            dataSource={data}
-            scroll={{ x: 1500, y: 350 }}
+            // dataSource={data}
+            dataSource={data?.map((item) => ({ ...item, key: item.id }))}
+            scroll={{ x: 1200, y: 350 }}
             pagination={{
               total: pagination.totalCount,
               current: pagination.currentPage + 1,
@@ -287,28 +280,28 @@ const Services = () => {
           />
         )}
       </div>
-      <AddFaqModal
-        open={addFaqOpen}
+      <AddServiceModal
+        open={addServiceOpen}
         cancel={() => {
-          setAddFaqOpen(false);
+          setAddServiceOpen(false);
           form.resetFields();
         }}
-        ok={addFaqFunc}
+        ok={addServiceFunc}
         form={form}
-        loading={addFaqMutation.isPending}
+        loading={addServiceMutation.isPending}
       />
-      <EditFaqModal
-        open={editFaqOpen}
-        cancel={() => setEditFaqOpen(false)}
+      <EditServiceModal
+        open={editServiceOpen}
+        cancel={() => setEditServiceOpen(false)}
         form={form}
-        ok={editFaqFunc}
+        ok={editServiceFunc}
         loading={editFaqMutation.isPending}
       />
-      <DeleteFaqModal
-        open={deleteFaqOpen}
-        cancel={() => setDeleteFaqOpen(false)}
-        ok={deleteFaqFunc}
-        loading={deleteFaqMutation.isPending}
+      <DeleteServiceModal
+        open={deleteServiceOpen}
+        cancel={() => setDeleteServiceOpen(false)}
+        ok={deleteServiceFunc}
+        loading={deleteServiceMutation.isPending}
       />
     </>
   );

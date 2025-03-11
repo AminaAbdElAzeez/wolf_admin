@@ -23,23 +23,20 @@ import { FaPlus } from "react-icons/fa";
 import { FiTrash } from "react-icons/fi";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin7Line } from "react-icons/ri";
-import { AddFaqModal, DeleteFaqModal, EditVehicleModal } from "./modals";
-
-// import FaqModal from "./modal";
+import { AddSliderModal, DeleteSliderModal, EditSliderModal } from "./modals";
 
 export interface DataType {
-  question_en: string;
-  question_ar: string;
-  answer_en: string;
-  answer_ar: string;
-  // id: number;
-
   name: string;
   id: number;
   nameAr: string;
   imageUrl?: string;
+  ImageUrl?: string;
   Name: string;
   NameAr: string;
+  titleEn: string;
+  titleAr: string;
+  descriptionAr: string;
+  descriptionEn: string;
 }
 
 type DataIndex = keyof DataType;
@@ -54,15 +51,10 @@ const Slider = () => {
     currentPage: 0,
   });
 
-  const [questionArabic, setQuestionArabic] = useState("");
-  const [questionEnglish, setQuestionEnglish] = useState("");
-  const [answerArabic, setAnswerArabic] = useState("");
-  const [answerEnglish, setAnswerEnglish] = useState("");
-  const [addFaqOpen, setAddFaqOpen] = useState(false);
-  const [editFaqOpen, setEditFaqOpen] = useState(false);
-  const [deleteFaqOpen, setDeleteFaqOpen] = useState(false);
-  const [faqId, setFaqId] = useState(undefined);
-
+  const [addSliderOpen, setAddSliderOpen] = useState(false);
+  const [editSliderOpen, setEditSliderOpen] = useState(false);
+  const [deleteSliderOpen, setDeleteSliderOpen] = useState(false);
+  const [SliderId, setSliderId] = useState(undefined);
   const [name, setName] = useState("");
   const [nameAr, setNameAr] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -112,64 +104,64 @@ const Slider = () => {
 
   const columns: TableColumnsType<DataType> = [
     {
-      title: <FormattedMessage id="title" />,
+      title: <FormattedMessage id="titleEn" />,
       dataIndex: "titleEn",
       key: "titleEn",
-      width: "20%",
-      filterDropdown: columnSearch("titleEn", titleEn, setTitleEn, "titleEn"),
-      filterIcon: (
-        <SearchOutlined style={{ color: titleEn ? "#03b89e" : undefined }} />
-      ),
+      width: "17%",
+      // filterDropdown: columnSearch("titleEn", titleEn, setTitleEn, "titleEn"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: titleEn ? "#03b89e" : undefined }} />
+      // ),
     },
     {
-      title: <FormattedMessage id="title" />,
+      title: <FormattedMessage id="titleAr" />,
       dataIndex: "titleAr",
       key: "titleAr",
-      width: "20%",
-      filterDropdown: columnSearch("titleAr", titleAr, setTitleAr, "titleAr"),
-      filterIcon: (
-        <SearchOutlined style={{ color: titleAr ? "#03b89e" : undefined }} />
-      ),
+      width: "17%",
+      // filterDropdown: columnSearch("titleAr", titleAr, setTitleAr, "titleAr"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: titleAr ? "#03b89e" : undefined }} />
+      // ),
     },
     {
-      title: <FormattedMessage id="description" />,
+      title: <FormattedMessage id="descriptionEn2" />,
       dataIndex: "descriptionEn",
       key: "descriptionEn",
       width: "20%",
-      filterDropdown: columnSearch(
-        "descriptionEn",
-        descriptionEn,
-        setDescriptionEn,
-        "descriptionEn"
-      ),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: descriptionEn ? "#03b89e" : undefined }}
-        />
-      ),
+      // filterDropdown: columnSearch(
+      //   "descriptionEn",
+      //   descriptionEn,
+      //   setDescriptionEn,
+      //   "descriptionEn"
+      // ),
+      // filterIcon: (
+      //   <SearchOutlined
+      //     style={{ color: descriptionEn ? "#03b89e" : undefined }}
+      //   />
+      // ),
     },
     {
-      title: <FormattedMessage id="description" />,
+      title: <FormattedMessage id="descriptionAr2" />,
       dataIndex: "descriptionAr",
       key: "descriptionAr",
       width: "20%",
-      filterDropdown: columnSearch(
-        "descriptionAr",
-        descriptionAr,
-        setDescriptionAr,
-        "descriptionAr"
-      ),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: descriptionAr ? "#03b89e" : undefined }}
-        />
-      ),
+      // filterDropdown: columnSearch(
+      //   "descriptionAr",
+      //   descriptionAr,
+      //   setDescriptionAr,
+      //   "descriptionAr"
+      // ),
+      // filterIcon: (
+      //   <SearchOutlined
+      //     style={{ color: descriptionAr ? "#03b89e" : undefined }}
+      //   />
+      // ),
     },
     {
       title: <FormattedMessage id="imageUrl" />,
       dataIndex: "imageUrl",
       key: "imageUrl",
-      width: "20%",
+      width: "10%",
       render: (_, record) =>
         record.imageUrl ? (
           <Image
@@ -187,47 +179,51 @@ const Slider = () => {
     {
       title: <FormattedMessage id="actions" />,
       key: "actions",
-      width: "20%",
+      width: "16%",
       render: (_, record: DataType) => (
         <div className="flex">
           <Tooltip title={<FormattedMessage id="edit" />} color="#209163">
-            <FiEdit
-              className="text-primary cursor-pointer mx-3 text-xl"
-              onClick={() => {
-                setFaqId({
-                  id: record.id,
-                  name: record.name, // تأكد من استخدام المفتاح الصحيح
-                  nameAr: record.nameAr,
-                  imageUrl: record.imageUrl, // تأكد من وجود الصورة
-                });
-                form.setFieldsValue({
-                  // Id: record.id,
-                  Name: record.name,
-                  NameAr: record.nameAr,
-                  // Image: record.imageUrl ? [{ url: record.imageUrl }] : [], // تحميل الصورة
-                });
-                setEditFaqOpen(true);
-              }}
-            />
+            <span>
+              <FiEdit
+                className="text-primary cursor-pointer mx-3 text-xl text-[#209163]"
+                onClick={() => {
+                  setSliderId({
+                    id: record.id,
+                    titleEn: record.titleEn,
+                    descriptionAr: record.descriptionAr,
+                    descriptionEn: record.descriptionEn,
+                    titleAr: record.titleAr,
+                    imageUrl: record.imageUrl,
+                  });
+                  form.setFieldsValue({
+                    Name: record.name,
+                    NameAr: record.nameAr,
+                  });
+                  setEditSliderOpen(true);
+                }}
+              />
+            </span>
           </Tooltip>
           <Tooltip
             title={<FormattedMessage id="delete" />}
             color="rgb(185 28 28)"
           >
-            <FiTrash
-              className="text-red-700  cursor-pointer mx-3 text-xl"
-              onClick={() => {
-                setFaqId(record.id);
-                setDeleteFaqOpen(true);
-              }}
-            />
+            <span>
+              <FiTrash
+                className="text-red-700  cursor-pointer mx-3 text-xl"
+                onClick={() => {
+                  setSliderId(record.id);
+                  setDeleteSliderOpen(true);
+                }}
+              />
+            </span>
           </Tooltip>
         </div>
       ),
     },
   ];
 
-  //// get all faqs
+  // get all Slider
   const fetchData = async () => {
     const params: { [key: string]: string | number } = {};
     if (typeof pagination.currentPage === "number") {
@@ -256,117 +252,11 @@ const Slider = () => {
     queryFn: fetchData,
     // refetchInterval: 5000,
   });
-  //// add Faq logic
-  // const addFaqMutation = useMutation({
-  //   mutationFn: async ({
-  //     url,
-  //     formData,
-  //   }: {
-  //     url: string;
-  //     formData?: FormData;
-  //   }) => {
-  //     if (formData) {
-  //       return axios.post(url, formData, {
-  //         headers: { "Content-Type": "multipart/form-data" },
-  //       });
-  //     } else {
-  //       return axios.post(
-  //         url,
-  //         { Name: name, NameAr: nameAr }, // ✅ إرسال البيانات كـ JSON
-  //         { headers: { "Content-Type": "application/json" } }
-  //       );
-  //     }
-  //   },
 
-  //   onSuccess: (res) => {
-  //     setAddFaqOpen(false);
-  //     refetch();
-  //     message.success(res?.data?.message, 3);
-  //     form.resetFields();
-  //   },
-  //   onError: (err) => {
-  //     message.error(err.message);
-  //   },
-  // });
+  // const yourAuthToken =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInN1YiI6ImZmYjhmMGQ5LTU2ODgtNGI4OC0yYTIwLTA4ZGQ1MDJmMWQwOSIsImp0aSI6ImU2M2Q2ZDA0LWM1ZGMtNDhmNS1iYmZjLThlOTVkYTJhOWM3OCIsImV4cCI6MTc0MTY3OTE5MywiaXNzIjoiV29sZlNoYWRvd0lzc3VlciIsImF1ZCI6IldvbGZTaGFkb3dVc2VyIn0.o6xDmFdwSKylpPoAc0y5mFRl8lULKDA_C8cUOvZOL50";
 
-  // const addFaqFunc = (values: {
-  //   name: string;
-  //   nameAr: string;
-  //   image?: File;
-  // }) => {
-  //   const { name, nameAr, image } = values;
-
-  //   if (!image) {
-  //     // ✅ عند عدم وجود صورة، نرسل البيانات كـ JSON وليس داخل formData
-  //     addFaqMutation.mutate({
-  //       url: `Vehicletype`,
-  //       formData: undefined, // ✅ لا نمرر FormData
-  //     });
-
-  //     return;
-  //   }
-
-  //   // ✅ عند وجود صورة، نستخدم FormData
-  //   const formData = new FormData();
-  //   formData.append("Name", name);
-  //   formData.append("NameAr", nameAr);
-  //   formData.append("Image", image);
-
-  //   addFaqMutation.mutate({
-  //     url: `Vehicletype`,
-  //     formData,
-  //   });
-  // };
-
-  const yourAuthToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInN1YiI6ImZmYjhmMGQ5LTU2ODgtNGI4OC0yYTIwLTA4ZGQ1MDJmMWQwOSIsImp0aSI6ImU2M2Q2ZDA0LWM1ZGMtNDhmNS1iYmZjLThlOTVkYTJhOWM3OCIsImV4cCI6MTc0MTY3OTE5MywiaXNzIjoiV29sZlNoYWRvd0lzc3VlciIsImF1ZCI6IldvbGZTaGFkb3dVc2VyIn0.o6xDmFdwSKylpPoAc0y5mFRl8lULKDA_C8cUOvZOL50";
-
-  // const handleAddVehicle = async (values: any) => {
-  //   try {
-  //     const formData = new FormData();
-
-  //     // ✅ تأكيد إضافة الاسم والاسم العربي
-  //     formData.append("name", values.Name);
-  //     formData.append("nameAr", values.NameAr);
-
-  //     // ✅ التأكد من أن الصورة موجودة قبل الإرسال
-  //     if (
-  //       values.Image &&
-  //       values.Image.length > 0 &&
-  //       values.Image[0].originFileObj
-  //     ) {
-  //       const imageFile = values.Image[0].originFileObj;
-  //       console.log("📷 تفاصيل الصورة:", imageFile);
-  //       formData.append("image", imageFile);
-  //     } else {
-  //       console.error("🚨 لم يتم تحديد صورة بشكل صحيح!");
-  //       return;
-  //     }
-
-  //     // ✅ طباعة جميع البيانات داخل FormData قبل الإرسال
-  //     for (let pair of formData.entries()) {
-  //       console.log(`📂 ${pair[0]}:`, pair[1]);
-  //     }
-
-  //     // ✅ إرسال البيانات إلى السيرفر
-  //     const response = await axios.post("/Vehicletype", formData, {
-  //       baseURL: "https://backend.wolf-shadow.com/api",
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         Authorization: `Bearer ${yourAuthToken || ""}`,
-  //       },
-  //     });
-
-  //     console.log("🚀 تمت الإضافة بنجاح:", response.data);
-
-  //     setAddFaqOpen(false);
-  //     form.resetFields();
-  //   } catch (error) {
-  //     console.error("❌ خطأ أثناء الإضافة:", error.response?.data || error);
-  //   }
-  // };
-
-  //// edit Faq logic
+  // add Slider logic
 
   // const addVehicleMutation = useMutation({
   //   mutationFn: (values: any) => {
@@ -406,17 +296,13 @@ const Slider = () => {
   //   addVehicleMutation.mutate(values);
   // };
 
-  const addVehicleMutation = useMutation({
+  const addSliderMutation = useMutation({
     mutationFn: (values: any) => {
       const formData = new FormData();
-
-      // إضافة القيم النصية إلى FormData
       formData.append("TitleEn", values.titleEn);
       formData.append("TitleAr", values.titleAr);
       formData.append("DescriptionEn", values.descriptionEn);
       formData.append("DescriptionAr", values.descriptionAr);
-
-      // إضافة الصورة إلى FormData إذا كانت موجودة
       if (
         values.Image &&
         values.Image.length > 0 &&
@@ -429,12 +315,12 @@ const Slider = () => {
         baseURL: "https://backend.wolf-shadow.com/api",
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${yourAuthToken || ""}`,
+          // Authorization: `Bearer ${yourAuthToken || ""}`,
         },
       });
     },
     onSuccess: (res) => {
-      setAddFaqOpen(false);
+      setAddSliderOpen(false);
       refetch();
       message.success(res?.data?.message, 3);
       form.resetFields();
@@ -444,12 +330,12 @@ const Slider = () => {
     },
   });
 
-  const addVehicleFunc = (values: any) => {
+  const addSliderFunc = (values: any) => {
     console.log("Form Values:", values);
-    addVehicleMutation.mutate(values);
+    addSliderMutation.mutate(values);
   };
 
-  const editVehicleMutation = useMutation({
+  const editSliderMutation = useMutation({
     mutationFn: (values: any) => {
       const formData = new FormData();
       formData.append("Id", values.Id);
@@ -458,13 +344,13 @@ const Slider = () => {
       formData.append("DescriptionEn", values.descriptionEn);
       formData.append("DescriptionAr", values.descriptionAr);
 
-      if (
-        values.Image &&
-        values.Image.length > 0 &&
-        values.Image[0].originFileObj
-      ) {
-        formData.append("ImageUrl", values.Image[0].originFileObj);
-      }
+      // if (
+      //   values.Image &&
+      //   values.Image.length > 0 &&
+      //   values.Image[0].originFileObj
+      // ) {
+      //   formData.append("ImageUrl", values.Image[0].originFileObj);
+      // }
 
       if (
         values.Image &&
@@ -478,12 +364,12 @@ const Slider = () => {
         baseURL: "https://backend.wolf-shadow.com/api",
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${yourAuthToken || ""}`,
+          // Authorization: `Bearer ${yourAuthToken || ""}`,
         },
       });
     },
     onSuccess: (res) => {
-      setEditFaqOpen(false);
+      setEditSliderOpen(false);
       refetch();
       message.success(res?.data?.message, 3);
       form.resetFields();
@@ -493,29 +379,26 @@ const Slider = () => {
     },
   });
 
-  // ✅ استدعاء التعديل عند الضغط على حفظ
-  const editVehicleFunc = (values: any) => {
-    const updatedValues = { ...values, Id: faqId.id }; // إضافة `faqId` إلى البيانات
-    editVehicleMutation.mutate(updatedValues);
+  const editSliderFunc = (values: any) => {
+    const updatedValues = { ...values, Id: SliderId.id };
+    editSliderMutation.mutate(updatedValues);
   };
 
-  /// delete faq logic
-
-  const deleteFaqMutation = useMutation({
-    mutationFn: () => axios["delete"](`Home/slider?id=${faqId}`),
+  /// delete Slider logic
+  const deleteSliderMutation = useMutation({
+    mutationFn: () => axios["delete"](`Home/slider?id=${SliderId}`),
     onSuccess: (res) => {
       // const { data } = res?.data?.data;
-
-      setDeleteFaqOpen(false);
+      setDeleteSliderOpen(false);
+      refetch();
       message.success(res?.data?.message);
     },
     onError: (err) => {
       message.error(err.message);
     },
   });
-
-  const deleteFaqFunc = () => {
-    deleteFaqMutation.mutate();
+  const deleteSliderFunc = () => {
+    deleteSliderMutation.mutate();
   };
 
   return (
@@ -526,21 +409,24 @@ const Slider = () => {
         ) : (
           <Table<DataType>
             title={() => (
-              <Button
-                type="primary"
-                className="shadow-none"
-                icon={<FaPlus />}
-                shape="circle"
-                // loading={loading}
-                onClick={() => {
-                  form.resetFields();
-                  setAddFaqOpen(true);
-                }}
-              />
+              <Tooltip title={<FormattedMessage id="add" />} color="#ed1c24">
+                <Button
+                  type="primary"
+                  className="shadow-none"
+                  icon={<FaPlus />}
+                  shape="circle"
+                  // loading={loading}
+                  onClick={() => {
+                    form.resetFields();
+                    setAddSliderOpen(true);
+                  }}
+                />
+              </Tooltip>
             )}
             columns={columns}
-            dataSource={data}
-            scroll={{ x: 1500, y: 350 }}
+            // dataSource={data}
+            dataSource={data?.map((item) => ({ ...item, key: item.id }))}
+            scroll={{ x: 1600, y: 350 }}
             pagination={{
               total: pagination.totalCount,
               current: pagination.currentPage + 1,
@@ -556,29 +442,29 @@ const Slider = () => {
           />
         )}
       </div>
-      <AddFaqModal
-        open={addFaqOpen}
+      <AddSliderModal
+        open={addSliderOpen}
         cancel={() => {
-          setAddFaqOpen(false);
+          setAddSliderOpen(false);
           form.resetFields();
         }}
-        ok={addVehicleFunc}
+        ok={addSliderFunc}
         form={form}
-        loading={addVehicleMutation.isPending}
+        loading={addSliderMutation.isPending}
       />
-      <EditVehicleModal
-        open={editFaqOpen}
-        cancel={() => setEditFaqOpen(false)}
+      <EditSliderModal
+        open={editSliderOpen}
+        cancel={() => setEditSliderOpen(false)}
         form={form}
-        ok={editVehicleFunc}
-        loading={editVehicleMutation.isPending}
-        data={faqId}
+        ok={editSliderFunc}
+        loading={editSliderMutation.isPending}
+        data={SliderId}
       />
-      <DeleteFaqModal
-        open={deleteFaqOpen}
-        cancel={() => setDeleteFaqOpen(false)}
-        ok={deleteFaqFunc}
-        loading={deleteFaqMutation.isPending}
+      <DeleteSliderModal
+        open={deleteSliderOpen}
+        cancel={() => setDeleteSliderOpen(false)}
+        ok={deleteSliderFunc}
+        loading={deleteSliderMutation.isPending}
       />
     </>
   );

@@ -3,14 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { Input, Form, Modal, Button, Dropdown, Select } from "antd";
 import type { FormInstance } from "antd/es/form";
 
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 export interface DataType {
-  question_en: string;
-  question_ar: string;
-  answer_en: string;
-  answer_ar: string;
-  // id: number;
-
   name: string;
   id: number;
   nameAr: string;
@@ -31,9 +25,9 @@ type Props = {
   loading: boolean;
 };
 {
-  /***********edit Faq modal********* */
+  /***********edit Service modal********* */
 }
-export const EditFaqModal: React.FC<Props> = ({
+export const EditServiceModal: React.FC<Props> = ({
   open,
   cancel,
   ok,
@@ -41,13 +35,15 @@ export const EditFaqModal: React.FC<Props> = ({
   form,
   loading,
 }) => {
+  const intl = useIntl();
+
   return (
     <>
-      {/** edit FAQ** */}
+      {/** edit Services** */}
       <Modal
         title={
           <p className="text-[18px]">
-            <FormattedMessage id="edit-Faq" />
+            <FormattedMessage id="edit-Service" />
           </p>
         }
         open={open}
@@ -62,26 +58,29 @@ export const EditFaqModal: React.FC<Props> = ({
 
           // autoComplete="off"
         >
-          <div className="my-8 px-2 py-1">
+          <div className="my-5 px-0 ">
             <Form.Item
               label={<FormattedMessage id="name" />}
               name="name"
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="question-arabic-required" />,
+                  message: <FormattedMessage id="name-english-required" />,
                 },
                 {
                   min: 2,
-                  message: <FormattedMessage id="question-min-2-char" />,
+                  message: <FormattedMessage id="name-min-2-char" />,
                 },
                 {
                   max: 100,
-                  message: <FormattedMessage id="question-max-100-char" />,
+                  message: <FormattedMessage id="name-max-100-char" />,
                 },
               ]}
             >
-              <Input size="large" />
+              <Input
+                size="large"
+                placeholder={intl.formatMessage({ id: "nameMsgEn" })}
+              />
             </Form.Item>
             <Form.Item
               label={<FormattedMessage id="nameAr" />}
@@ -89,25 +88,27 @@ export const EditFaqModal: React.FC<Props> = ({
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="question-english-required" />,
+                  message: <FormattedMessage id="name-arabic-required" />,
                 },
                 {
                   min: 2,
-                  message: <FormattedMessage id="question-min-2-char" />,
+                  message: <FormattedMessage id="name-min-2-char" />,
                 },
                 {
                   max: 100,
-                  message: <FormattedMessage id="question-max-100-char" />,
+                  message: <FormattedMessage id="name-max-100-char" />,
                 },
               ]}
             >
-              <Input size="large" />
+              <Input
+                size="large"
+                placeholder={intl.formatMessage({ id: "nameMsgAr" })}
+              />
             </Form.Item>
           </div>
-          <Form.Item className="modals-btns update-user-modal-btns flex justify-end items-center sticky bottom-0 bg-white z-[1000] pt-4">
+          <Form.Item className="modals-btns update-user-modal-btns flex justify-end items-center sticky bottom-0 bg-white z-[1000] pt-0">
             <Button
-              // type="primary"
-
+              type="primary"
               size="large"
               className="modals-cancel-btn min-w-[65px] me-1 text-black inline-block hover:text-black hover:border-black"
               onClick={cancel}
@@ -115,8 +116,7 @@ export const EditFaqModal: React.FC<Props> = ({
               <FormattedMessage id="cancel" />
             </Button>
             <Button
-              // type="primary"
-
+              type="primary"
               size="large"
               className="modals-confirm-btn text-white min-w-[65px] ms-1 bg-primary hover:bg-primary inline-block"
               htmlType="submit"
@@ -132,23 +132,25 @@ export const EditFaqModal: React.FC<Props> = ({
 };
 
 {
-  /*******add faq modal******** */
+  /*******add Service modal******** */
 }
 
-export const AddFaqModal: React.FC<Props> = ({
+export const AddServiceModal: React.FC<Props> = ({
   open,
   cancel,
   ok,
   form,
   loading,
 }) => {
+  const intl = useIntl();
+
   return (
     <>
-      {/** add FAQ** */}
+      {/** add Service** */}
       <Modal
         title={
           <p className="text-[18px]">
-            <FormattedMessage id="add-faq" />
+            <FormattedMessage id="add-Service" />
           </p>
         }
         open={open}
@@ -167,30 +169,29 @@ export const AddFaqModal: React.FC<Props> = ({
 
           // autoComplete="off"
         >
-          <div
-            className="my-8 px-2 py-1 
-           
-            "
-          >
+          <div className="my-5 px-0 ">
             <Form.Item
               label={<FormattedMessage id="name" />}
               name="name"
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="question-arabic-required" />,
+                  message: <FormattedMessage id="name-english-required" />,
                 },
                 {
                   min: 2,
-                  message: <FormattedMessage id="question-min-2-char" />,
+                  message: <FormattedMessage id="name-min-2-char" />,
                 },
                 {
                   max: 100,
-                  message: <FormattedMessage id="question-max-100-char" />,
+                  message: <FormattedMessage id="name-max-100-char" />,
                 },
               ]}
             >
-              <Input size="large" />
+              <Input
+                size="large"
+                placeholder={intl.formatMessage({ id: "nameMsgEn" })}
+              />
             </Form.Item>
             <Form.Item
               label={<FormattedMessage id="nameAr" />}
@@ -198,25 +199,27 @@ export const AddFaqModal: React.FC<Props> = ({
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="question-english-required" />,
+                  message: <FormattedMessage id="name-arabic-required" />,
                 },
                 {
                   min: 2,
-                  message: <FormattedMessage id="question-min-2-char" />,
+                  message: <FormattedMessage id="name-min-2-char" />,
                 },
                 {
                   max: 100,
-                  message: <FormattedMessage id="question-max-100-char" />,
+                  message: <FormattedMessage id="name-max-100-char" />,
                 },
               ]}
             >
-              <Input size="large" />
+              <Input
+                size="large"
+                placeholder={intl.formatMessage({ id: "nameMsgAr" })}
+              />
             </Form.Item>
           </div>
           <Form.Item className="modals-btns update-user-modal-btns flex justify-end items-center sticky bottom-0 bg-white z-[1000] pt-4">
             <Button
-              // type="primary"
-
+              type="primary"
               size="large"
               className="modals-cancel-btn min-w-[65px] me-1 text-black inline-block hover:text-black hover:border-black"
               onClick={cancel}
@@ -224,8 +227,7 @@ export const AddFaqModal: React.FC<Props> = ({
               <FormattedMessage id="cancel" />
             </Button>
             <Button
-              // type="primary"
-
+              type="primary"
               size="large"
               className="modals-confirm-btn text-white min-w-[65px] ms-1 bg-primary hover:bg-primary inline-block"
               htmlType="submit"
@@ -243,7 +245,7 @@ export const AddFaqModal: React.FC<Props> = ({
 {
   /******delete modal****** */
 }
-export const DeleteFaqModal: React.FC<Props> = ({
+export const DeleteServiceModal: React.FC<Props> = ({
   open,
   cancel,
   ok,
@@ -255,7 +257,7 @@ export const DeleteFaqModal: React.FC<Props> = ({
       <Modal
         title={
           <p className="text-[18px]">
-            <FormattedMessage id="delete-faq" />
+            <FormattedMessage id="delete-service" />
           </p>
         }
         open={open}
@@ -280,8 +282,8 @@ export const DeleteFaqModal: React.FC<Props> = ({
           </>
         }
       >
-        <p className="text-[16px] py-8">
-          {<FormattedMessage id="sure-delete-faq" />}
+        <p className="text-[16px] my-2 px-0 ">
+          {<FormattedMessage id="sure-delete-service" />}
         </p>
       </Modal>
     </>

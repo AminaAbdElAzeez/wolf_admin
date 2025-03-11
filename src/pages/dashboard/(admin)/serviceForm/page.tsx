@@ -26,12 +26,6 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 // import FaqModal from "./modal";
 
 export interface DataType {
-  question_en: string;
-  question_ar: string;
-  answer_en: string;
-  answer_ar: string;
-  // id: number;
-
   name: string;
   id: number;
   nameAr: string;
@@ -48,18 +42,6 @@ const ServiceForm = () => {
     totalCount: 0,
     currentPage: 0,
   });
-
-  const [questionArabic, setQuestionArabic] = useState("");
-  const [questionEnglish, setQuestionEnglish] = useState("");
-  const [answerArabic, setAnswerArabic] = useState("");
-  const [answerEnglish, setAnswerEnglish] = useState("");
-  const [addFaqOpen, setAddFaqOpen] = useState(false);
-  const [editFaqOpen, setEditFaqOpen] = useState(false);
-  const [deleteFaqOpen, setDeleteFaqOpen] = useState(false);
-  const [faqId, setFaqId] = useState(undefined);
-
-  //   const [name, setName] = useState("");
-  const [nameAr, setNameAr] = useState("");
 
   const [serviceType, setServiceType] = useState("");
   const [vehicleType, setVehicleType] = useState("");
@@ -113,139 +95,135 @@ const ServiceForm = () => {
 
   const columns: TableColumnsType<DataType> = [
     {
-      title: <FormattedMessage id="name" />,
+      title: <FormattedMessage id="name2" />,
       dataIndex: "name",
       key: "name",
-      width: "20%",
-      filterDropdown: columnSearch("name", name, setName, "name"),
-      filterIcon: (
-        <SearchOutlined style={{ color: name ? "#03b89e" : undefined }} />
-      ),
+      width: "12%",
+      // filterDropdown: columnSearch("name", name, setName, "name"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: name ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="phone" />,
       dataIndex: "phone",
       key: "phone",
-      width: "20%",
-      filterDropdown: columnSearch("phone", phone, setPhone, "phone"),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: questionEnglish ? "#03b89e" : undefined }}
-        />
-      ),
+      width: "10%",
+      // filterDropdown: columnSearch("phone", phone, setPhone, "phone"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: phone ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="email" />,
       dataIndex: "email",
       key: "email",
-      width: "20%",
-      filterDropdown: columnSearch("email", email, setEmail, "email"),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: questionEnglish ? "#03b89e" : undefined }}
-        />
-      ),
+      width: "10%",
+      // filterDropdown: columnSearch("email", email, setEmail, "email"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: email ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="couponCode" />,
       dataIndex: "couponCode",
       key: "couponCode",
-      width: "20%",
-      filterDropdown: columnSearch(
-        "couponCode",
-        couponCode,
-        setCouponCode,
-        "couponCode"
-      ),
-      filterIcon: (
-        <SearchOutlined style={{ color: couponCode ? "#03b89e" : undefined }} />
-      ),
+      width: "8%",
+      // filterDropdown: columnSearch(
+      //   "couponCode",
+      //   couponCode,
+      //   setCouponCode,
+      //   "couponCode"
+      // ),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: couponCode ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="serviceType" />,
       dataIndex: "serviceType",
       key: "serviceType",
-      width: "20%",
-      filterDropdown: columnSearch(
-        "serviceType",
-        serviceType,
-        setServiceType,
-        "serviceType"
-      ),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: serviceType ? "#03b89e" : undefined }}
-        />
-      ),
+      width: "10%",
+      // filterDropdown: columnSearch(
+      //   "serviceType",
+      //   serviceType,
+      //   setServiceType,
+      //   "serviceType"
+      // ),
+      // filterIcon: (
+      //   <SearchOutlined
+      //     style={{ color: serviceType ? "#03b89e" : undefined }}
+      //   />
+      // ),
     },
     {
       title: <FormattedMessage id="vehicleType" />,
       dataIndex: "vehicleType",
       key: "vehicleType",
-      width: "20%",
-      filterDropdown: columnSearch(
-        "vehicleType",
-        vehicleType,
-        setVehicleType,
-        "vehicleType"
-      ),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: vehicleType ? "#03b89e" : undefined }}
-        />
-      ),
+      width: "10%",
+      // filterDropdown: columnSearch(
+      //   "vehicleType",
+      //   vehicleType,
+      //   setVehicleType,
+      //   "vehicleType"
+      // ),
+      // filterIcon: (
+      //   <SearchOutlined
+      //     style={{ color: vehicleType ? "#03b89e" : undefined }}
+      //   />
+      // ),
     },
     {
       title: <FormattedMessage id="vehicleSize" />,
       dataIndex: "vehicleSize",
       key: "vehicleSize",
-      width: "20%",
-      filterDropdown: columnSearch(
-        "vehicleSize",
-        vehicleSize,
-        setVehicleSize,
-        "vehicleSize"
-      ),
-      filterIcon: (
-        <SearchOutlined
-          style={{ color: vehicleSize ? "#03b89e" : undefined }}
-        />
-      ),
+      width: "10%",
+      // filterDropdown: columnSearch(
+      //   "vehicleSize",
+      //   vehicleSize,
+      //   setVehicleSize,
+      //   "vehicleSize"
+      // ),
+      // filterIcon: (
+      //   <SearchOutlined
+      //     style={{ color: vehicleSize ? "#03b89e" : undefined }}
+      //   />
+      // ),
     },
     {
       title: <FormattedMessage id="branch" />,
       dataIndex: "branch",
       key: "branch",
-      width: "20%",
-      filterDropdown: columnSearch("branch", branch, setBranch, "branch"),
-      filterIcon: (
-        <SearchOutlined style={{ color: branch ? "#03b89e" : undefined }} />
-      ),
+      width: "10%",
+      // filterDropdown: columnSearch("branch", branch, setBranch, "branch"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: branch ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="startDate" />,
       dataIndex: "startDate",
       key: "startDate",
-      width: "20%",
-      filterDropdown: columnSearch(
-        "startDate",
-        startDate,
-        setStartDate,
-        "startDate"
-      ),
-      filterIcon: (
-        <SearchOutlined style={{ color: startDate ? "#03b89e" : undefined }} />
-      ),
+      width: "10%",
+      // filterDropdown: columnSearch(
+      //   "startDate",
+      //   startDate,
+      //   setStartDate,
+      //   "startDate"
+      // ),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: startDate ? "#03b89e" : undefined }} />
+      // ),
     },
     {
       title: <FormattedMessage id="endDate" />,
       dataIndex: "endDate",
       key: "endDate",
-      width: "20%",
-      filterDropdown: columnSearch("endDate", endDate, setEndDate, "endDate"),
-      filterIcon: (
-        <SearchOutlined style={{ color: endDate ? "#03b89e" : undefined }} />
-      ),
+      width: "10%",
+      // filterDropdown: columnSearch("endDate", endDate, setEndDate, "endDate"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: endDate ? "#03b89e" : undefined }} />
+      // ),
     },
   ];
 
@@ -278,65 +256,6 @@ const ServiceForm = () => {
     queryFn: fetchData,
     // refetchInterval: 5000,
   });
-  //// add Faq logic
-  const addFaqMutation = useMutation({
-    mutationFn: (values: any) => axios["post"](`Branch`, values),
-    onSuccess: (res) => {
-      setAddFaqOpen(false);
-      refetch();
-      message.success(res?.data?.message, 3);
-      form.resetFields();
-    },
-    onError: (err) => {
-      message.error(err.message);
-    },
-  });
-
-  const addFaqFunc = (values: any) => {
-    addFaqMutation.mutate(values);
-  };
-
-  //// edit Faq logic
-  const editFaqMutation = useMutation({
-    mutationFn: (values: { id: number; name: string; nameAr: string }) =>
-      axios["put"](`Branch`, { ...values, id: faqId }),
-    onSuccess: (res) => {
-      setEditFaqOpen(false);
-      refetch();
-      message.success(res?.data?.message, 3);
-    },
-    onError: (err) => {
-      message.error(err.message);
-    },
-  });
-
-  const editFaqFunc = (values: {
-    id: number;
-    name: string;
-    nameAr: string;
-  }) => {
-    console.log("🚀 Sending Data:", values);
-    editFaqMutation.mutate(values);
-  };
-
-  /// delete faq logic
-
-  const deleteFaqMutation = useMutation({
-    mutationFn: () => axios["delete"](`Branch?id=${faqId}`),
-    onSuccess: (res) => {
-      // const { data } = res?.data?.data;
-
-      setDeleteFaqOpen(false);
-      message.success(res?.data?.message);
-    },
-    onError: (err) => {
-      message.error(err.message);
-    },
-  });
-
-  const deleteFaqFunc = () => {
-    deleteFaqMutation.mutate();
-  };
 
   return (
     <>
@@ -345,22 +264,10 @@ const ServiceForm = () => {
           <RollerLoading />
         ) : (
           <Table<DataType>
-            title={() => (
-              <Button
-                type="primary"
-                className="shadow-none"
-                icon={<FaPlus />}
-                shape="circle"
-                // loading={loading}
-                onClick={() => {
-                  form.resetFields();
-                  setAddFaqOpen(true);
-                }}
-              />
-            )}
             columns={columns}
-            dataSource={data}
-            scroll={{ x: 1500, y: 350 }}
+            // dataSource={data}
+            dataSource={data?.map((item) => ({ ...item, key: item.id }))}
+            scroll={{ x: 2250, y: 350 }}
             pagination={{
               total: pagination.totalCount,
               current: pagination.currentPage + 1,

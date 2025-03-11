@@ -57,14 +57,14 @@ export const EditFaqModal: React.FC<Props> = ({
 
           // autoComplete="off"
         >
-          <div className="my-8 px-2 py-1">
+          <div className="my-5 px-0 ">
             <Form.Item
               label={<FormattedMessage id="name" />}
               name="name"
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="name-arabic-required" />,
+                  message: <FormattedMessage id="name-english-required" />,
                 },
                 {
                   min: 2,
@@ -87,7 +87,7 @@ export const EditFaqModal: React.FC<Props> = ({
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="name-english-required" />,
+                  message: <FormattedMessage id="name-arabic-required" />,
                 },
                 {
                   min: 2,
@@ -168,7 +168,7 @@ export const AddBranchModal: React.FC<Props> = ({
           // autoComplete="off"
         >
           <div
-            className="my-8 px-2 py-1 
+            className="my-5 px-0 
            
             "
           >
@@ -178,7 +178,7 @@ export const AddBranchModal: React.FC<Props> = ({
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="name-arabic-required" />,
+                  message: <FormattedMessage id="name-english-required" />,
                 },
                 {
                   min: 2,
@@ -201,7 +201,7 @@ export const AddBranchModal: React.FC<Props> = ({
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="name-english-required" />,
+                  message: <FormattedMessage id="name-arabic-required" />,
                 },
                 {
                   min: 2,
@@ -259,7 +259,7 @@ export const DeleteFaqModal: React.FC<Props> = ({
       <Modal
         title={
           <p className="text-[18px]">
-            <FormattedMessage id="delete-faq" />
+            <FormattedMessage id="delete-branch" />
           </p>
         }
         open={open}
@@ -284,8 +284,8 @@ export const DeleteFaqModal: React.FC<Props> = ({
           </>
         }
       >
-        <p className="text-[16px] py-8">
-          {<FormattedMessage id="sure-delete-faq" />}
+        <p className="text-[16px] my-2 px-0 ">
+          {<FormattedMessage id="sure-delete-branch" />}
         </p>
       </Modal>
     </>
