@@ -92,121 +92,125 @@ export const EditSliderModal: React.FC<Props> = ({
       footer={null}
     >
       <Form layout="vertical" form={form} initialValues={data} onFinish={ok}>
-        <Form.Item
-          label={<FormattedMessage id="titleEn" />}
-          name="titleEn"
-          rules={[
-            {
-              required: true,
-              message: <FormattedMessage id="title-english-required" />,
-            },
-            {
-              min: 2,
-              message: <FormattedMessage id="title-min-2-char" />,
-            },
-            {
-              max: 100,
-              message: <FormattedMessage id="title-max-100-char" />,
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            placeholder={intl.formatMessage({ id: "titleMsgEn" })}
-          />
-        </Form.Item>
-        <Form.Item
-          label={<FormattedMessage id="titleAr" />}
-          name="titleAr"
-          rules={[
-            {
-              required: true,
-              message: <FormattedMessage id="titleAr-arabic-required" />,
-            },
-            {
-              min: 2,
-              message: <FormattedMessage id="title-min-2-char" />,
-            },
-            {
-              max: 100,
-              message: <FormattedMessage id="title-max-100-char" />,
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            placeholder={intl.formatMessage({ id: "titleMsgAr" })}
-          />
-        </Form.Item>
-        <Form.Item
-          label={<FormattedMessage id="descriptionEn2" />}
-          name="descriptionEn"
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage id="descriptionEn2-english-required" />
-              ),
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            placeholder={intl.formatMessage({ id: "descMsgEn" })}
-          />
-        </Form.Item>
-        <Form.Item
-          label={<FormattedMessage id="descriptionAr2" />}
-          name="descriptionAr"
-          rules={[
-            {
-              required: true,
-              message: <FormattedMessage id="descriptionAr2-arabic-required" />,
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            placeholder={intl.formatMessage({ id: "descMsgAr" })}
-          />
-        </Form.Item>
-        <Form.Item
-          // label={<FormattedMessage id="image" />}
-          name="Image"
-          valuePropName="fileList"
-          getValueFromEvent={(e) => e.fileList}
-          className="pt-3"
-        >
-          <Upload
-            fileList={fileList}
-            onChange={handleChange}
-            listType="picture"
-            maxCount={1}
+        <div className="my-5 px-0">
+          <Form.Item
+            label={<FormattedMessage id="titleEn" />}
+            name="titleEn"
+            rules={[
+              {
+                required: true,
+                message: <FormattedMessage id="title-english-required" />,
+              },
+              {
+                min: 2,
+                message: <FormattedMessage id="title-min-2-char" />,
+              },
+              {
+                max: 100,
+                message: <FormattedMessage id="title-max-100-char" />,
+              },
+            ]}
           >
-            <Button icon={<UploadOutlined />} className="mb-2">
-              <FormattedMessage id="select-img" />
+            <Input
+              size="large"
+              placeholder={intl.formatMessage({ id: "titleMsgEn" })}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<FormattedMessage id="titleAr" />}
+            name="titleAr"
+            rules={[
+              {
+                required: true,
+                message: <FormattedMessage id="titleAr-arabic-required" />,
+              },
+              {
+                min: 2,
+                message: <FormattedMessage id="title-min-2-char" />,
+              },
+              {
+                max: 100,
+                message: <FormattedMessage id="title-max-100-char" />,
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              placeholder={intl.formatMessage({ id: "titleMsgAr" })}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<FormattedMessage id="descriptionEn2" />}
+            name="descriptionEn"
+            rules={[
+              {
+                required: true,
+                message: (
+                  <FormattedMessage id="descriptionEn2-english-required" />
+                ),
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              placeholder={intl.formatMessage({ id: "descMsgEn" })}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<FormattedMessage id="descriptionAr2" />}
+            name="descriptionAr"
+            rules={[
+              {
+                required: true,
+                message: (
+                  <FormattedMessage id="descriptionAr2-arabic-required" />
+                ),
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              placeholder={intl.formatMessage({ id: "descMsgAr" })}
+            />
+          </Form.Item>
+          <Form.Item
+            // label={<FormattedMessage id="image" />}
+            name="Image"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => e.fileList}
+            className="pt-3"
+          >
+            <Upload
+              fileList={fileList}
+              onChange={handleChange}
+              listType="picture"
+              maxCount={1}
+            >
+              <Button icon={<UploadOutlined />} className="mb-2">
+                <FormattedMessage id="select-img" />
+              </Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item className="modals-btns update-user-modal-btns flex justify-end items-center sticky bottom-0 bg-white z-[1000] pt-0">
+            <Button
+              type="primary"
+              size="large"
+              className="modals-cancel-btn min-w-[65px] me-1 text-black inline-block hover:text-black hover:border-black"
+              onClick={cancel}
+            >
+              <FormattedMessage id="cancel" />
             </Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item className="modals-btns update-user-modal-btns flex justify-end items-center sticky bottom-0 bg-white z-[1000] pt-0">
-          <Button
-            type="primary"
-            size="large"
-            className="modals-cancel-btn min-w-[65px] me-1 text-black inline-block hover:text-black hover:border-black"
-            onClick={cancel}
-          >
-            <FormattedMessage id="cancel" />
-          </Button>
-          <Button
-            type="primary"
-            size="large"
-            className="modals-confirm-btn text-white min-w-[65px] ms-1 bg-primary hover:bg-primary inline-block"
-            htmlType="submit"
-            loading={loading}
-          >
-            <FormattedMessage id="edit" />
-          </Button>
-        </Form.Item>
+            <Button
+              type="primary"
+              size="large"
+              className="modals-confirm-btn text-white min-w-[65px] ms-1 bg-primary hover:bg-primary inline-block"
+              htmlType="submit"
+              loading={loading}
+            >
+              <FormattedMessage id="edit" />
+            </Button>
+          </Form.Item>
+        </div>
       </Form>
     </Modal>
   );
@@ -255,11 +259,7 @@ export const AddSliderModal: React.FC<Props> = ({
 
           // autoComplete="off"
         >
-          <div
-            className="my-8 px-2 py-1 
-           
-            "
-          >
+          <div className="my-5 px-0">
             <Form.Item
               label={<FormattedMessage id="titleEn" />}
               name="titleEn"
@@ -424,7 +424,7 @@ export const DeleteSliderModal: React.FC<Props> = ({
           </>
         }
       >
-        <p className="text-[16px] py-8">
+        <p className="text-[16px] my-2 px-0">
           {<FormattedMessage id="sure-delete-slider" />}
         </p>
       </Modal>
