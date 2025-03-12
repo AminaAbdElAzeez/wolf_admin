@@ -76,8 +76,9 @@ export const EditSliderModal: React.FC<Props> = ({
   }, [open, data, form]);
 
   const handleChange = ({ fileList }: any) => {
-    setFileList(Array.isArray(fileList) ? fileList : []);
+    setFileList(fileList);
   };
+
   const intl = useIntl();
 
   return (
@@ -185,6 +186,7 @@ export const EditSliderModal: React.FC<Props> = ({
               onChange={handleChange}
               listType="picture"
               maxCount={1}
+              showUploadList={{ showPreviewIcon: false }}
             >
               <Button icon={<UploadOutlined />} className="mb-2">
                 <FormattedMessage id="select-img" />
@@ -234,9 +236,16 @@ export const AddSliderModal: React.FC<Props> = ({
   };
   const intl = useIntl();
 
+  useEffect(() => {
+    if (open) {
+      form.resetFields();
+      setFileList([]);
+    }
+  }, [open, form]);
+
   return (
     <>
-      {/** add FAQ** */}
+      {/** add Slider** */}
       <Modal
         title={
           <p className="text-[18px]">
@@ -352,6 +361,7 @@ export const AddSliderModal: React.FC<Props> = ({
                 onChange={handleChange}
                 listType="picture"
                 maxCount={1}
+                showUploadList={{ showPreviewIcon: false }}
               >
                 <Button icon={<UploadOutlined />} className="mb-2">
                   <FormattedMessage id="select-img" />

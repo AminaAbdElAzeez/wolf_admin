@@ -319,6 +319,7 @@ const Slider = () => {
         },
       });
     },
+
     onSuccess: (res) => {
       setAddSliderOpen(false);
       refetch();
@@ -331,6 +332,7 @@ const Slider = () => {
   });
 
   const addSliderFunc = (values: any) => {
+    form.resetFields();
     console.log("Form Values:", values);
     addSliderMutation.mutate(values);
   };
@@ -343,21 +345,14 @@ const Slider = () => {
       formData.append("TitleAr", values.titleAr);
       formData.append("DescriptionEn", values.descriptionEn);
       formData.append("DescriptionAr", values.descriptionAr);
-
-      // if (
-      //   values.Image &&
-      //   values.Image.length > 0 &&
-      //   values.Image[0].originFileObj
-      // ) {
-      //   formData.append("ImageUrl", values.Image[0].originFileObj);
-      // }
+      formData.append("DescriptionAr", values.Image[0].originFileObj);
 
       if (
         values.Image &&
         values.Image.length > 0 &&
         values.Image[0].originFileObj
       ) {
-        formData.append("Image", values.Image[0].originFileObj);
+        formData.append("ImageUrl", values.Image[0].originFileObj);
       }
 
       return axios.put(`/Home/slider`, formData, {
