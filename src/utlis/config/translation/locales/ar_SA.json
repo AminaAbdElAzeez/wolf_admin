@@ -850,5 +850,13 @@
   "edit-Vehicles": "تعديل السيارة",
   "add-Vehicles": "إضافة سيارة",
   "delete-Vehicle": "حذف السيارة ",
-  "sure-delete-Vehicle": "هل أنت متأكد أنك تريد حذف هذه السيارة؟"
+  "sure-delete-Vehicle": "هل أنت متأكد أنك تريد حذف هذه السيارة؟",
+  "logo":"الشعار",
+  "imageAlt":"صورة",
+  "edit-modal":"تعديل الشعار",
+  "add-logo": "إضافة شعار",
+  "delete-Logo":"حذف الشعار",
+  "sure-delete-logo":"هل أنت متأكد أنك تريد حذف هذا الشعار"
+
+
 }

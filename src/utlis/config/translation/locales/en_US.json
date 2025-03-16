@@ -850,5 +850,11 @@
   "edit-Vehicles": "Edit Vehicle",
   "add-Vehicles": "Add Vehicle",
   "delete-Vehicle": "Delete Vehicle",
-  "sure-delete-Vehicle": "Are You Sure You Want To Delete This Vehicle ?"
+  "sure-delete-Vehicle": "Are You Sure You Want To Delete This Vehicle ?",
+  "logo":"Logo",
+  "imageAlt":"image",
+  "edit-modal":"Edit Logo",
+  "add-logo":"Add Logo",
+  "delete-Logo":"Delete Logo",
+  "sure-delete-logo":"Are You Sure You Want To Delete This Logo ?"
 }

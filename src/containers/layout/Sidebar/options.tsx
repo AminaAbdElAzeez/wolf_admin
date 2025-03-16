@@ -1,5 +1,5 @@
 import { FormattedMessage } from "react-intl";
-import { IoSettingsSharp } from "react-icons/io5";
+import { IoLogoSlack, IoSettingsSharp } from "react-icons/io5";
 import { FaCodeBranch, FaDatabase } from "react-icons/fa";
 import { BiCategoryAlt } from "react-icons/bi";
 import { MdLocationCity } from "react-icons/md";
@@ -81,6 +81,13 @@ const getMenuItems: () => MenuItem[] = () => {
       to: "slider",
       label: <FormattedMessage id="slider" />,
       icon: <FaSliders className="!text-xl" />,
+      disabled: false,
+    },
+    {
+      key: "logo",
+      to: "logo",
+      label: <FormattedMessage id="logo" />,
+      icon: <IoLogoSlack className="!text-xl" />,
       disabled: false,
     },
     {
