@@ -156,23 +156,25 @@ const Services = () => {
 
   // get all Services
   const fetchData = async () => {
-    const params: { [key: string]: string | number } = {};
-    if (typeof pagination.currentPage === "number") {
-      params.skip = pagination.currentPage * pagination.pageSize;
-      params.take = pagination.pageSize;
-    }
-    const searchParams = searchQuery();
-    // params.query = query;
+    const params = {
+      pageNumber: pagination.currentPage + 1,
+      pageSize: pagination.pageSize,
+    };
 
-    const { data } = await axios.get(`Servicetype/admin`);
-    // console.log(data)
+    console.log("🚀 API Params:", params);
+
+    const { data } = await axios.get(`Servicetype/admin`, { params });
+
+    console.log("✅ API Response:", data);
+
     setPagination((current) => ({
       ...current,
-      totalCount: data?.count,
+      totalCount: data?.totalRecords,
     }));
 
     return data?.data;
   };
+
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: [
       "fetchFaqs",
@@ -285,6 +287,7 @@ const Services = () => {
                   pageSize,
                   currentPage: page - 1,
                 }));
+                refetch();
               },
             }}
           />
