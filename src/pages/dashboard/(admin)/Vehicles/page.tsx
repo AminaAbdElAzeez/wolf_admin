@@ -56,6 +56,10 @@ const Vehicles = () => {
   const [editVehiclesOpen, setEditVehiclesOpen] = useState(false);
   const [deleteVehiclesOpen, setDeleteVehiclesOpen] = useState(false);
   const [VehiclesId, setVehiclesId] = useState(undefined);
+  const { locale } = useIntl();
+  const headers = {
+    "Accept-Language": locale === "ar" ? "ar-SA" : "en-US",
+  };
 
   const [name, setName] = useState("");
   const [nameAr, setNameAr] = useState("");
@@ -400,7 +404,8 @@ const Vehicles = () => {
   /// delete faq logic
 
   const deleteFaqMutation = useMutation({
-    mutationFn: () => axios["delete"](`Vehicletype?id=${VehiclesId}`),
+    mutationFn: () =>
+      axios["delete"](`Vehicletype?id=${VehiclesId}`, { headers: headers }),
     onSuccess: (res) => {
       // const { data } = res?.data?.data;
 

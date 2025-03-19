@@ -821,8 +821,17 @@
   "vehicleType": "نوع السيارة",
   "vehicleSize": "حجم السيارة",
   "branch": "الفرع",
-  "startDate": "تاريخ البدء",
-  "endDate": "تاريخ النهاية",
+  "startDate": "التاريخ",
+  "time": "الوقت",
+  "delivery": "طريقة التسليم",
+  "atCenter": "بالمركز",
+  "ViaTowTruck": "من خلال سطحه",
+  "small": "صغير",
+  "large": "كبير",
+  "compact": "مدمج",
+  "family": "عائلي",
+  "intermediate": "متوسط",
+
   "edit-Service": "تعديل نوع الخدمة",
   "add-Service": "إضافة نوع الخدمة",
   "delete-service": "حذف نوع الخدمة",
@@ -851,12 +860,11 @@
   "add-Vehicles": "إضافة سيارة",
   "delete-Vehicle": "حذف السيارة ",
   "sure-delete-Vehicle": "هل أنت متأكد أنك تريد حذف هذه السيارة؟",
-  "logo":"الشعار",
-  "imageAlt":"صورة",
-  "edit-modal":"تعديل الشعار",
+  "logo": "الشعار",
+  "imageAlt": "صورة",
+  "edit-modal": "تعديل الشعار",
   "add-logo": "إضافة شعار",
-  "delete-Logo":"حذف الشعار",
-  "sure-delete-logo":"هل أنت متأكد أنك تريد حذف هذا الشعار"
-
-
+  "delete-Logo": "حذف الشعار",
+  "sure-delete-logo": "هل أنت متأكد أنك تريد حذف هذا الشعار",
+  "imageRequired": "الصورة مطلوبة"
 }

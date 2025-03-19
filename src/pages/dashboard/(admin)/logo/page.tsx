@@ -36,7 +36,7 @@ type DataIndex = keyof DataType;
 
 const Logo = () => {
   const dispatch = useDispatch();
-    const intl = useIntl();
+  const intl = useIntl();
   const [query, setQuery] = useState({} as any);
   const [pagination, setPagination] = useState({
     pageSize: 10,
@@ -48,7 +48,10 @@ const Logo = () => {
   const [editLogoOpen, setEditLogoOpen] = useState(false);
   const [deleteLogoOpen, setDeleteLogoOpen] = useState(false);
   const [LogoId, setLogoId] = useState(undefined);
-
+  const { locale } = useIntl();
+  const headers = {
+    "Accept-Language": locale === "ar" ? "ar-SA" : "en-US",
+  };
 
   const [form] = Form.useForm();
   const searchQuery = () => {
@@ -191,7 +194,6 @@ const Logo = () => {
       }
       // console.log("FormData Entries:", [...formData.entries()]);
 
-
       return axios.post(`/Home/slider/logos`, formData, {
         baseURL: "https://backend.wolf-shadow.com/api",
         headers: {
@@ -228,10 +230,10 @@ const Logo = () => {
 
       return axios.put(`/Home/slider/logos?id=${values.Id}`, formData, {
         baseURL: "https://backend.wolf-shadow.com/api",
-        // headers: {
-        //   "Content-Type": "multipart/form-data",
-        //   // Authorization: `Bearer ${yourAuthToken || ""}`,
-        // },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          // Authorization: `Bearer ${yourAuthToken || ""}`,
+        },
       });
     },
     onSuccess: (res) => {
@@ -253,10 +255,9 @@ const Logo = () => {
 
   /// delete faq logic
 
-
-  
   const deleteLogoMutation = useMutation({
-    mutationFn: () => axios["delete"](`Home/slider/logos?id=${LogoId}`),
+    mutationFn: () =>
+      axios["delete"](`Home/slider/logos?id=${LogoId}`, { headers: headers }),
     onSuccess: (res) => {
       // const { data } = res?.data?.data;
 

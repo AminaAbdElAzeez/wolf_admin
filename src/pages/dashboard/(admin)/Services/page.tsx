@@ -49,6 +49,10 @@ const Services = () => {
   const [ServiceId, setServiceId] = useState(undefined);
   const [name, setName] = useState("");
   const [nameAr, setNameAr] = useState("");
+  const { locale } = useIntl();
+  const headers = {
+    "Accept-Language": locale === "ar" ? "ar-SA" : "en-US",
+  };
 
   const [form] = Form.useForm();
   const searchQuery = () => {
@@ -182,7 +186,8 @@ const Services = () => {
 
   // add Service logic
   const addServiceMutation = useMutation({
-    mutationFn: (values: any) => axios["post"](`Servicetype`, values),
+    mutationFn: (values: any) =>
+      axios["post"](`Servicetype`, values, { headers: headers }),
     onSuccess: (res) => {
       setAddServiceOpen(false);
       refetch();
@@ -201,7 +206,11 @@ const Services = () => {
   // edit Service logic
   const editFaqMutation = useMutation({
     mutationFn: (values: { id: number; name: string; nameAr: string }) =>
-      axios["put"](`Servicetype`, { ...values, id: ServiceId }),
+      axios["put"](
+        `Servicetype`,
+        { ...values, id: ServiceId },
+        { headers: headers }
+      ),
     onSuccess: (res) => {
       setEditServiceOpen(false);
       refetch();
@@ -223,7 +232,8 @@ const Services = () => {
 
   /// delete Service logic
   const deleteServiceMutation = useMutation({
-    mutationFn: () => axios["delete"](`Servicetype?id=${ServiceId}`),
+    mutationFn: () =>
+      axios["delete"](`Servicetype?id=${ServiceId}`, { headers: headers }),
     onSuccess: (res) => {
       // const { data } = res?.data?.data;
       setDeleteServiceOpen(false);

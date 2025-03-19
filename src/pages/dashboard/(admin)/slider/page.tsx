@@ -62,6 +62,10 @@ const Slider = () => {
   const [descriptionEn, setDescriptionEn] = useState("");
   const [titleAr, setTitleAr] = useState("");
   const [descriptionAr, setDescriptionAr] = useState("");
+  const { locale } = useIntl();
+  const headers = {
+    "Accept-Language": locale === "ar" ? "ar-SA" : "en-US",
+  };
 
   const [form] = Form.useForm();
   const searchQuery = () => {
@@ -381,7 +385,8 @@ const Slider = () => {
 
   /// delete Slider logic
   const deleteSliderMutation = useMutation({
-    mutationFn: () => axios["delete"](`Home/slider?id=${SliderId}`),
+    mutationFn: () =>
+      axios["delete"](`Home/slider?id=${SliderId}`, { headers: headers }),
     onSuccess: (res) => {
       // const { data } = res?.data?.data;
       setDeleteSliderOpen(false);

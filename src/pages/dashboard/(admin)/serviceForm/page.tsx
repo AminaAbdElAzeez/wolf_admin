@@ -54,6 +54,19 @@ const ServiceForm = () => {
   const [email, setEmail] = useState("");
   const [couponCode, setCouponCode] = useState("");
 
+  const vehicleSizes = [
+    { id: 0, name: <FormattedMessage id="small" /> },
+    { id: 1, name: <FormattedMessage id="compact" /> },
+    { id: 2, name: <FormattedMessage id="intermediate" /> },
+    { id: 3, name: <FormattedMessage id="large" /> },
+    { id: 4, name: <FormattedMessage id="family" /> },
+  ];
+
+  const deliveryMethods = [
+    { id: 0, name: <FormattedMessage id="atCenter" /> },
+    { id: 1, name: <FormattedMessage id="ViaTowTruck" /> },
+  ];
+
   const [form] = Form.useForm();
   const searchQuery = () => {
     let search = "";
@@ -98,7 +111,7 @@ const ServiceForm = () => {
       title: <FormattedMessage id="name2" />,
       dataIndex: "name",
       key: "name",
-      width: "12%",
+      width: "10%",
       // filterDropdown: columnSearch("name", name, setName, "name"),
       // filterIcon: (
       //   <SearchOutlined style={{ color: name ? "#03b89e" : undefined }} />
@@ -108,7 +121,7 @@ const ServiceForm = () => {
       title: <FormattedMessage id="phone" />,
       dataIndex: "phone",
       key: "phone",
-      width: "10%",
+      width: "8%",
       // filterDropdown: columnSearch("phone", phone, setPhone, "phone"),
       // filterIcon: (
       //   <SearchOutlined style={{ color: phone ? "#03b89e" : undefined }} />
@@ -143,7 +156,7 @@ const ServiceForm = () => {
       title: <FormattedMessage id="serviceType" />,
       dataIndex: "serviceType",
       key: "serviceType",
-      width: "10%",
+      width: "8%",
       // filterDropdown: columnSearch(
       //   "serviceType",
       //   serviceType,
@@ -160,7 +173,7 @@ const ServiceForm = () => {
       title: <FormattedMessage id="vehicleType" />,
       dataIndex: "vehicleType",
       key: "vehicleType",
-      width: "10%",
+      width: "8%",
       // filterDropdown: columnSearch(
       //   "vehicleType",
       //   vehicleType,
@@ -177,7 +190,11 @@ const ServiceForm = () => {
       title: <FormattedMessage id="vehicleSize" />,
       dataIndex: "vehicleSize",
       key: "vehicleSize",
-      width: "10%",
+      width: "8%",
+      render: (value) => {
+        const size = vehicleSizes.find((size) => size.id === value);
+        return size ? size.name : value;
+      },
       // filterDropdown: columnSearch(
       //   "vehicleSize",
       //   vehicleSize,
@@ -194,7 +211,21 @@ const ServiceForm = () => {
       title: <FormattedMessage id="branch" />,
       dataIndex: "branch",
       key: "branch",
-      width: "10%",
+      width: "8%",
+      // filterDropdown: columnSearch("branch", branch, setBranch, "branch"),
+      // filterIcon: (
+      //   <SearchOutlined style={{ color: branch ? "#03b89e" : undefined }} />
+      // ),
+    },
+    {
+      title: <FormattedMessage id="delivery" />,
+      dataIndex: "carDeliveryMethod",
+      key: "carDeliveryMethod",
+      width: "8%",
+      render: (value) => {
+        const method = deliveryMethods.find((method) => method.id === value);
+        return method ? method.name : value;
+      },
       // filterDropdown: columnSearch("branch", branch, setBranch, "branch"),
       // filterIcon: (
       //   <SearchOutlined style={{ color: branch ? "#03b89e" : undefined }} />
@@ -202,9 +233,9 @@ const ServiceForm = () => {
     },
     {
       title: <FormattedMessage id="startDate" />,
-      dataIndex: "startDate",
-      key: "startDate",
-      width: "10%",
+      dataIndex: "date",
+      key: "date",
+      width: "8%",
       // filterDropdown: columnSearch(
       //   "startDate",
       //   startDate,
@@ -216,10 +247,10 @@ const ServiceForm = () => {
       // ),
     },
     {
-      title: <FormattedMessage id="endDate" />,
-      dataIndex: "endDate",
-      key: "endDate",
-      width: "10%",
+      title: <FormattedMessage id="time" />,
+      dataIndex: "time",
+      key: "time",
+      width: "8%",
       // filterDropdown: columnSearch("endDate", endDate, setEndDate, "endDate"),
       // filterIcon: (
       //   <SearchOutlined style={{ color: endDate ? "#03b89e" : undefined }} />
@@ -267,7 +298,7 @@ const ServiceForm = () => {
             columns={columns}
             // dataSource={data}
             dataSource={data?.map((item) => ({ ...item, key: item.id }))}
-            scroll={{ x: 2250, y: 350 }}
+            scroll={{ x: 2400, y: 350 }}
             pagination={{
               total: pagination.totalCount,
               current: pagination.currentPage + 1,

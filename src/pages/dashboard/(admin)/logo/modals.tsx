@@ -76,6 +76,22 @@ export const EditLogoModal: React.FC<Props> = ({
             valuePropName="fileList"
             getValueFromEvent={(e) => e.fileList}
             className="pt-3"
+            rules={[
+              {
+                required: true,
+                message: <FormattedMessage id="imageRequired" />,
+              },
+              // () => ({
+              //   validator(_, value) {
+              //     if (!value || value.length === 0) {
+              //       return Promise.reject(
+              //         new Error(intl.formatMessage({ id: "imageRequired" }))
+              //       );
+              //     }
+              //     return Promise.resolve();
+              //   },
+              // }),
+            ]}
           >
             <Upload
               beforeUpload={() => false}
@@ -168,6 +184,22 @@ export const AddLogoModal: React.FC<Props> = ({
               valuePropName="fileList"
               getValueFromEvent={(e) => e.fileList}
               className="pt-3"
+              rules={[
+                {
+                  required: true,
+                  message: <FormattedMessage id="imageRequired" />,
+                },
+                // () => ({
+                //   validator(_, value) {
+                //     if (!value || value.length === 0) {
+                //       return Promise.reject(
+                //         new Error(intl.formatMessage({ id: "imageRequired" }))
+                //       );
+                //     }
+                //     return Promise.resolve();
+                //   },
+                // }),
+              ]}
             >
               <Upload
                 // fileList={fileList}

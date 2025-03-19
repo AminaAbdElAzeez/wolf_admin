@@ -48,6 +48,11 @@ const Branches = () => {
   const [branchId, setBranchId] = useState(undefined);
   const [name, setName] = useState("");
   const [nameAr, setNameAr] = useState("");
+  const { locale } = useIntl();
+
+  const headers = {
+    "Accept-Language": locale === "ar" ? "ar-SA" : "en-US",
+  };
 
   const [form] = Form.useForm();
   const searchQuery = () => {
@@ -181,7 +186,8 @@ const Branches = () => {
 
   // add Branch logic
   const addBranchMutation = useMutation({
-    mutationFn: (values: any) => axios["post"](`Branch`, values),
+    mutationFn: (values: any) =>
+      axios["post"](`Branch`, values, { headers: headers }),
     onSuccess: (res) => {
       setAddBranchOpen(false);
       refetch();
@@ -200,7 +206,7 @@ const Branches = () => {
   // edit Branch logic
   const editBranchMutation = useMutation({
     mutationFn: (values: { id: number; name: string; nameAr: string }) =>
-      axios["put"](`Branch`, { ...values, id: branchId }),
+      axios["put"](`Branch`, { ...values, id: branchId }, { headers: headers }),
     onSuccess: (res) => {
       setEditBranchOpen(false);
       refetch();
@@ -222,7 +228,8 @@ const Branches = () => {
   /// delete Branch logic
 
   const deleteBranchMutation = useMutation({
-    mutationFn: () => axios["delete"](`Branch?id=${branchId}`),
+    mutationFn: () =>
+      axios["delete"](`Branch?id=${branchId}`, { headers: headers }),
     onSuccess: (res) => {
       // const { data } = res?.data?.data;
 
