@@ -1,6 +1,6 @@
 import { FormattedMessage } from "react-intl";
 import { IoLogoSlack, IoSettingsSharp } from "react-icons/io5";
-import { FaCodeBranch, FaDatabase } from "react-icons/fa";
+import { FaChartLine, FaCodeBranch, FaDatabase } from "react-icons/fa";
 import { BiCategoryAlt } from "react-icons/bi";
 import { MdLocationCity } from "react-icons/md";
 import { MdOutlineBrandingWatermark } from "react-icons/md";
@@ -102,6 +102,13 @@ const getMenuItems: () => MenuItem[] = () => {
       to: "contact-form",
       label: <FormattedMessage id="contact-form" />,
       icon: <IoMdContact className="!text-xl" />,
+      disabled: false,
+    },
+    {
+      key: "statistics",
+      to: "statistics",
+      label: <FormattedMessage id="statistics" />,
+      icon: <FaChartLine className="!text-xl" />,
       disabled: false,
     },
   ];

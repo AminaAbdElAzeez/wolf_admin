@@ -51,7 +51,6 @@
   "unrequired": "Not Required",
   "topbar.logout": "Logout",
   "logout": "Logout",
-  "statistics": "Statistics",
   "roles": "Roles",
   "permissions": "Permissions",
   "employees": "Employees",
@@ -696,7 +695,6 @@
   "noSubCat": "No Sub Categories",
   "start-date": "Start Date",
   "end-date": "End Date",
-  "value": "Value",
   "budget": "Budget",
   "invalid-type": "Type must be a number",
   "type-required": "Type is required",
@@ -781,8 +779,6 @@
   "user.name": "Ahmed Ali",
   "user.subTitle": "System Administrator",
   "contact.databaseBtn": "Connect to Database",
-  "chart1": "Number of Activities",
-  "chart2": "Number of Family Members Using",
   "chart3": "Number of Implemented Events",
   "chart4": "Activities and Projects Activity",
   "chart5": "Activities and Projects",
@@ -866,5 +862,9 @@
   "add-logo": "Add Logo",
   "delete-Logo": "Delete Logo",
   "sure-delete-logo": "Are You Sure You Want To Delete This Logo ?",
-  "imageRequired": "Image is Required"
+  "imageRequired": "Image is Required",
+  "statistics": "Statistics",
+  "chart1": "Total Services",
+  "chart2": "Total Contacts",
+  "value": "Value"
 }

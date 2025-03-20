@@ -1,28 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Table } from "antd";
 import { Line } from "@ant-design/plots";
 import { LineChartOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import axios from "utlis/library/helpers/axios";
 
 const Chart = () => {
+  const [totalSubmissions, setTotalSubmissions] = useState(null);
+  const [totalContacts, setTotalContacts] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      try {
+        const [servicesRes, contactsRes] = await Promise.all([
+          axios.get("statistics/total-services"),
+          axios.get("statistics/total-contacts"),
+        ]);
+
+        setTotalSubmissions(servicesRes.data.totalSubmissions);
+        setTotalContacts(contactsRes.data.totalSubmissions);
+      } catch (error) {
+        console.error("Error fetching statistics:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStatistics();
+  }, []);
+
   const stats = [
     {
       title: <FormattedMessage id="chart1" />,
-      value: "2040",
+      value: loading ? "..." : totalSubmissions || 0,
       bg: "#B7FFDB",
       color: "#36CA7F",
     },
     {
       title: <FormattedMessage id="chart2" />,
-      value: "240",
+      value: loading ? "..." : totalContacts || 0,
       bg: "#FFDED2",
       color: "#FF9066",
-    },
-    {
-      title: <FormattedMessage id="chart3" />,
-      value: "2040",
-      bg: "#DEEAFF",
-      color: "#2A374E",
     },
   ];
 
@@ -34,7 +52,7 @@ const Chart = () => {
           return (
             <Card
               key={index}
-              className="shadow-md p-4 w-[32%] h-[152px] min-w-[305px] max-[996px]:w-full transition-all duration-300"
+              className="shadow-md p-4 w-[49%] h-[152px] min-w-[305px] max-[996px]:w-full transition-all duration-300"
               style={{
                 borderBottom: `4px solid ${
                   hovered ? stat.color : "transparent"
@@ -45,10 +63,10 @@ const Chart = () => {
               onMouseLeave={() => setHovered(false)}
             >
               <div className="w-[88%] ltr:text-left">
-                <h2 className="text-[15px] text-[#374957] font-[700]">
+                <h2 className="text-[20px] text-[#374957] font-[700] transition-colors duration-300 hover:text-[#ed1c24]">
                   {stat.title}
                 </h2>
-                <p className="text-[30px] text-[#2A374E] font-[700]">
+                <p className="text-[30px] text-[#2A374E] font-[600] transition-colors duration-300 hover:text-[#ed1c24]">
                   {stat.value}
                 </p>
               </div>

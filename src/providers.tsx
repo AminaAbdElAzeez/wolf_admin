@@ -24,6 +24,7 @@ import Slider from "./pages/dashboard/(admin)/slider/page";
 import ServiceForm from "./pages/dashboard/(admin)/serviceForm/page";
 import ContactForm from "./pages/dashboard/(admin)/contactForm/page";
 import Logo from "./pages/dashboard/(admin)/logo/page";
+import Statistics from "./pages/dashboard/(admin)/statistics/page";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
           {
             path: "contact-form",
             element: <ContactForm />,
+          },
+          {
+            path: "statistics",
+            element: <Statistics />,
           },
         ],
       },
