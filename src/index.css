@@ -461,9 +461,3 @@ div:where(.css-dev-only-do-not-override-y0mjb2).ant-typography-h1 > textarea,
 .chart .ant-card-body {
   margin-top: 0;
 }
-.g2-legend-list-item {
-  display: flex !important;
-  align-items: center !important;
-  flex-direction: row-reverse !important; /* لجعل النص يظهر بجانب المربع في RTL */
-  gap: 10px !important;
-}

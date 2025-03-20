@@ -866,5 +866,9 @@
   "statistics": "الإحصائيات",
   "chart1": "إجمالي الخدمات",
   "chart2": "إجمالي جهات الاتصال",
-  "value": "القيمة"
+  "value": "القيمة",
+  "serviceDistribution":"توزيع الخدمات",
+  "MonthlyStatistics":"إحصائيات الشهر"
+
+
 }

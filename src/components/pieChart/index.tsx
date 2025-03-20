@@ -1,7 +1,7 @@
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import RollerLoading from "components/loading/roller";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import axios from "utlis/library/helpers/axios";
 
 interface ServiceData {
@@ -65,17 +65,14 @@ const ServicePieChart = () => {
     });
   };
 
-  if (isLoading) return <RollerLoading />;
-  if (error)
-    return <p className="text-center text-red-500">Failed to load data</p>;
-
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg w-[95%] mx-auto">
+    <div className="p-6 bg-white shadow-lg rounded-lg w-[92%] mx-auto">
       <h2 className="pt-3 text-[20px] font-bold text-gray-700 text-center mb-4">
-        Service Distribution
+        <FormattedMessage id="serviceDistribution" />
       </h2>
 
-      <div className="overflow-auto p-4 flex justify-center">
+      <div className="overflow-x-auto overflow-y-auto p-4" style={{ maxHeight: "600px" }}>
+      <div style={{ minWidth: "600px" }} className="flex justify-center items-center">
         <PieChart width={500} height={500}>
           <Pie
             data={transformData()}
@@ -137,6 +134,7 @@ const ServicePieChart = () => {
             }}
           />
         </PieChart>
+      </div>
       </div>
     </div>
   );

@@ -52,7 +52,7 @@ const Chart = () => {
           return (
             <Card
               key={index}
-              className="shadow-md p-4 w-[49%] h-[152px] min-w-[305px] max-[996px]:w-full transition-all duration-300"
+              className="shadow-md p-4 w-[48%] h-[152px] min-w-[305px] max-[996px]:w-full transition-all duration-300"
               style={{
                 borderBottom: `4px solid ${
                   hovered ? stat.color : "transparent"

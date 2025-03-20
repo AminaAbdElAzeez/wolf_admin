@@ -866,5 +866,7 @@
   "statistics": "Statistics",
   "chart1": "Total Services",
   "chart2": "Total Contacts",
-  "value": "Value"
+  "value": "Value",
+  "serviceDistribution":"Service Distribution",
+  "MonthlyStatistics":"Monthly Statistics"
 }
